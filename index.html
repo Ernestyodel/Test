@@ -1,406 +1,282 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TonFi — Passive Income on TON</title>
-  <meta name="description" content="TonFi is a community token on TON combining meme culture with on-chain cashflows: LP fee reserve, buyback & burn, and holder rewards."/>
-  <meta name="theme-color" content="#0E1224" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="TonFi — Passive Income on TON">
-  <meta property="og:description" content="Earn passive income on TON. Treasure reserve → LP fees → buyback & burn → holder rewards.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://tonfi.meme/">
-  <meta property="og:image" content="">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="TonFi — Passive Income on TON">
-  <meta name="twitter:description" content="LP fees and buybacks powering sustainable value for holders.">
-  <meta name="twitter:image" content="">
-
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"Organization",
-    "name":"TonFi",
-    "url":"https://tonfi.meme/",
-    "logo":"",
-    "sameAs":["https://t.me/tonfi","https://x.com/"]
-  }
-  </script>
-
-  <style>
-    :root{
-      --bg:#0A0F1E; --bg2:#0E142A; --panel:#0f162e; --text:#EAF3FF; --muted:#9FB0C8;
-      --line:rgba(255,255,255,.12); --brand:#15A9FF; --brand2:#3FE7FF;
-      --radius:20px; --shadow:0 14px 40px rgba(0,0,0,.35);
+  <title>TONFI — Liquidity-Powered Meme on TON</title>
+  <meta name="description" content="TONFI: a meme‑driven token on TON. Auto‑LP + buyback & burn + holder rewards. Simple, clean, and mobile‑first." />
+  <meta property="og:title" content="TONFI — Liquidity-Powered Meme on TON" />
+  <meta property="og:description" content="Auto‑LP, buyback & burn, and rewards for holders. Explore TONFI and its treasury." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0EA5E9" />  <!-- Tailwind CDN (keeps everything in one file you can paste). -->  <script src="https://cdn.tailwindcss.com"></script>  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ton: {
+              50:'#F0F9FF',100:'#E0F2FE',200:'#BAE6FD',300:'#7DD3FC',400:'#38BDF8',500:'#0EA5E9',600:'#0284C7',700:'#0369A1',800:'#075985',900:'#0C4A6E'
+            }
+          },
+          boxShadow: {
+            soft: '0 10px 30px rgba(2,132,199,.25)'
+          },
+          keyframes: {
+            float: { '0%,100%': { transform:'translateY(0)' }, '50%': { transform:'translateY(-6px)'} },
+            shimmer: { '0%':{ backgroundPosition:'-200% 0' }, '100%':{ backgroundPosition:'200% 0' } }
+          },
+          animation: {
+            float: 'float 6s ease-in-out infinite',
+            shimmer: 'shimmer 2.2s linear infinite'
+          }
+        }
+      }
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; color:var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial;
-      background:
-        radial-gradient(1200px 900px at 90% -10%, #163a7a33, transparent 60%),
-        linear-gradient(180deg, var(--bg), var(--bg2));
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  </script>  <style>
+    /* Subtle TON-logo rain background (SVG pattern) */
+    .ton-rain {
+      --c: rgba(14,165,233,.08);
+      background-image: radial-gradient(circle at 1px 1px, var(--c) 1px, transparent 0);
+      background-size: 22px 22px;
     }
-    .container{max-width:1120px; margin:0 auto; padding:0 20px}
-    a{color:var(--brand2); text-decoration:none}
-    a:hover{opacity:.9}
-    .visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
-
-    /* Top bar */
-    .nav{position:sticky; top:0; z-index:30; backdrop-filter:saturate(140%) blur(12px);
-      background:linear-gradient(180deg,rgba(10,15,30,.85),rgba(10,15,30,.55)); border-bottom:1px solid var(--line)}
-    .nav-inner{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
-    .brand{display:flex; align-items:center; gap:12px}
-    .brand-mark{width:40px;height:40px;border-radius:12px; display:grid;place-items:center;
-      background: radial-gradient(60% 60% at 30% 30%, var(--brand2), var(--brand));
-      box-shadow: var(--shadow);
-    }
-    .brand h1{font-size:18px; letter-spacing:.4px; margin:0}
-    .nav-cta{display:flex; gap:10px; align-items:center}
-    .btn{padding:10px 14px; border-radius:12px; border:1px solid var(--line); color:var(--text); background:transparent; transition:transform .05s ease}
-    .btn:hover{transform:translateY(-1px)}
-    .btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand2)); color:#05202B; border:none; font-weight:700}
-    .btn.ghost{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));}
-
-    /* Hero */
-    header.hero{position:relative}
-    .fall{position:absolute; inset:0; pointer-events:none; overflow:hidden}
-    .ton{position:absolute; opacity:.16; filter:drop-shadow(0 6px 10px rgba(21,169,255,.25)); animation:fall linear infinite}
-    @keyframes fall{from{transform:translateY(-10vh)} to{transform:translateY(110vh)}}
-    .hero-inner{padding:80px 0 40px; display:grid; gap:22px}
-    .eyebrow{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--line);
-      border-radius:999px; font-size:12px; color:var(--muted); background:rgba(255,255,255,.05)}
-    .hero h2{font-size:42px; line-height:1.1; margin:6px 0 10px}
-    .hero p{color:var(--muted); max-width:780px}
-    .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:8px}
-
-    /* Sections */
-    main section{padding:28px 0}
-    .grid{display:grid; gap:16px}
-    @media(min-width:900px){ .grid.cols-3{grid-template-columns:repeat(3,1fr)} .grid.cols-2{grid-template-columns:repeat(2,1fr)}}
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow)
-    }
-    .card h3{margin:0 0 8px; font-size:18px}
-    .muted{color:var(--muted)}
-    .kpi{font-size:30px; font-weight:800; letter-spacing:.2px;
-      background:linear-gradient(90deg,#fff,var(--brand2)); -webkit-background-clip:text; background-clip:text; color:transparent}
-    .list{margin:0; padding-left:18px}
-
-    /* Section headers */
-    .section-title{display:flex; align-items:center; gap:10px; margin:8px 0 12px}
-    .dot{width:8px;height:8px;border-radius:50%; background:var(--brand2); box-shadow:0 0 18px var(--brand2)}
-
-    /* Tables */
-    table{font-size:14px}
-    th, td{padding:6px 0; border-bottom:1px dashed var(--line)}
-    th{text-align:left; color:#cfe2ff}
-
-    /* FAQ */
-    details{background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:16px; padding:14px 16px}
-    details+details{margin-top:10px}
-    summary{cursor:pointer; font-weight:600}
-    summary::-webkit-details-marker{display:none}
-
-    /* Footer */
-    footer{border-top:1px solid var(--line); margin-top:36px; padding:26px 0 40px; color:var(--muted)}
-    .social{display:flex; gap:10px}
-    .social a{display:grid; place-items:center; width:40px; height:40px; border-radius:12px; background:rgba(255,255,255,.06); border:1px solid var(--line)}
-
-    /* Small helpers */
-    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace}
-    .right{text-align:right}
-  </style>
-</head>
-<body>
-  <!-- Navigation -->
-  <nav class="nav" aria-label="Primary">
-    <div class="container nav-inner">
-      <div class="brand">
-        <div class="brand-mark" aria-hidden="true">
-          <!-- Inline TON-like glyph -->
-          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#fff" d="M12 2l8.66 5v10L12 22l-8.66-5V7L12 2z"/></svg>
-        </div>
-        <h1 aria-label="TonFi">TonFi</h1>
-      </div>
-      <div class="nav-cta">
-        <a class="btn ghost" href="https://t.me/tonfi" target="_blank" rel="noopener">Telegram</a>
-        <a class="btn ghost" href="https://x.com/" target="_blank" rel="noopener">X (Twitter)</a>
-        <a class="btn primary" href="#" target="_blank" rel="noopener">Buy on DEX</a>
+    .glass { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  </style></head>
+<body class="bg-slate-950 text-white antialiased">
+  <!-- Top Banner -->
+  <div class="w-full bg-gradient-to-r from-ton-600 via-ton-500 to-ton-600 text-white text-center text-sm py-2">
+    <p class="px-3">Treasury address: <button id="addrCopyTop" class="underline underline-offset-4 decoration-white/60 hover:decoration-white">UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh</button></p>
+  </div>  <!-- Nav -->  <header class="sticky top-0 z-50 bg-slate-950/70 glass border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex items-center justify-between h-16">
+        <a href="#home" class="flex items-center gap-3 group">
+          <!-- Inline SVG Logo (circle) -->
+          <svg class="w-9 h-9 drop-shadow" viewBox="0 0 64 64" fill="none" aria-label="TONFI logo">
+            <circle cx="32" cy="32" r="30" fill="url(#g)" />
+            <defs>
+              <linearGradient id="g" x1="0" y1="0" x2="64" y2="64">
+                <stop offset="0%" stop-color="#38BDF8"/>
+                <stop offset="100%" stop-color="#0EA5E9"/>
+              </linearGradient>
+            </defs>
+            <path d="M20 22h24l-12 20L20 22Z" fill="white" fill-opacity="0.95"/>
+          </svg>
+          <span class="text-lg font-semibold tracking-wide">TONFI</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-6 text-sm">
+          <a href="#about" class="hover:text-ton-200">About</a>
+          <a href="#tokenomics" class="hover:text-ton-200">Tokenomics</a>
+          <a href="#treasury" class="hover:text-ton-200">Treasury</a>
+          <a href="#roadmap" class="hover:text-ton-200">Roadmap</a>
+          <a href="#cta" class="hover:text-ton-200">Get Started</a>
+        </nav>
+        <button id="menuBtn" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl hover:bg-white/5">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
       </div>
     </div>
-  </nav>
-
-  <!-- Hero -->
-  <header class="hero">
-    <div class="fall" id="fall" aria-hidden="true"></div>
-    <div class="container hero-inner">
-      <span class="eyebrow"><span style="width:8px;height:8px;border-radius:50%;background:var(--brand2)"></span> Live on TON</span>
-      <h2>Passive Income on TON with a <span style="color:var(--brand2)">Sustainable Flywheel</span></h2>
-      <p>TonFi channels a portion of every trade into a curated treasure reserve that seeks LP fees across the TON ecosystem. Fees help fund recurring <strong>buyback &amp; burn</strong> and <strong>holder rewards</strong> for long-term sustainability.</p>
-      <div class="cta">
-        <a class="btn primary" href="#" target="_blank" rel="noopener">Launch App</a>
-        <a class="btn" href="#" target="_blank" rel="noopener">View Contract</a>
+    <div id="mobileMenu" class="md:hidden hidden border-t border-white/5">
+      <div class="px-4 py-3 space-y-2 text-sm">
+        <a href="#about" class="block py-2 hover:text-ton-200">About</a>
+        <a href="#tokenomics" class="block py-2 hover:text-ton-200">Tokenomics</a>
+        <a href="#treasury" class="block py-2 hover:text-ton-200">Treasury</a>
+        <a href="#roadmap" class="block py-2 hover:text-ton-200">Roadmap</a>
+        <a href="#cta" class="block py-2 hover:text-ton-200">Get Started</a>
       </div>
     </div>
-  </header>
-
-  <main class="container" id="main">
-    <!-- Value Propositions -->
-    <section aria-labelledby="value">
-      <div class="section-title"><span class="dot"></span><h3 id="value" style="margin:0">Why TonFi</h3></div>
-      <div class="grid cols-3">
-        <div class="card">
-          <h3>Treasure Reserve</h3>
-          <p class="muted">Programmatic allocations to TON liquidity positions designed to earn fees and grow book value over time.</p>
-        </div>
-        <div class="card">
-          <h3>Buyback &amp; Burn</h3>
-          <p class="muted">Reserve yield drives scheduled buybacks; purchased tokens are burned to reduce supply.</p>
-        </div>
-        <div class="card">
-          <h3>Holder Rewards</h3>
-          <p class="muted">A share of trading fees routes to holders as passive income, aligning community and protocol.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Tokenomics -->
-    <section aria-labelledby="tokenomics">
-      <div class="section-title"><span class="dot"></span><h3 id="tokenomics" style="margin:0">Tokenomics</h3></div>
-      <div class="grid cols-3">
-        <div class="card">
-          <h3>Buy Tax</h3>
-          <div class="kpi">5%</div>
-          <p class="muted">3% Liquidity &amp; Buyback • 2% Holders</p>
-        </div>
-        <div class="card">
-          <h3>Sell Tax</h3>
-          <div class="kpi">7%</div>
-          <p class="muted">5% Liquidity &amp; Buyback • 2% Holders</p>
-        </div>
-        <div class="card">
-          <h3>Supply</h3>
-          <div class="kpi mono">TBA</div>
-          <p class="muted">Fair, transparent, and auditable on-chain.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Reserve Portfolio (Live) -->
-    <section aria-labelledby="reserve" id="reserve-portfolio">
-      <div class="section-title"><span class="dot"></span>
-        <h3 id="reserve" style="margin:0">Reserve Portfolio (Live)</h3>
-      </div>
-      <div class="card" id="reserve-card">
-        <p class="muted" id="reserve-status">Loading reserve data from TON…</p>
-
-        <div class="grid cols-2" style="margin-top:10px">
-          <!-- Balances -->
-          <div>
-            <h4 style="margin:0 0 8px">Balances</h4>
-            <div id="ton-balance" class="muted">—</div>
-            <table id="jettons-table" style="width:100%; margin-top:10px; border-collapse:collapse">
-              <thead><tr>
-                <th>Token</th>
-                <th class="right">Balance</th>
-              </tr></thead>
-              <tbody></tbody>
-            </table>
+  </header>  <!-- Hero -->  <section id="home" class="relative ton-rain overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-ton-900/40 via-slate-950/10 to-slate-950"></div>
+    <div class="max-w-6xl mx-auto px-4 pt-16 pb-20">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
+            Liquidity‑Powered <span class="text-ton-300">Meme</span> on TON
+          </h1>
+          <p class="mt-4 text-white/80 max-w-prose">
+            TONFI channels trade fees into buyback & burn while rewarding holders. Built for the TON community with transparent treasury tracking and clean tokenomics.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="#cta" class="px-5 py-3 rounded-2xl bg-ton-500 hover:bg-ton-400 shadow-soft font-semibold">Get TONFI</a>
+            <a href="#treasury" class="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/20">View Treasury</a>
           </div>
-
-          <!-- LP Positions -->
-          <div>
-            <h4 style="margin:0 0 8px">LP Positions (DeDust)</h4>
-            <table id="lp-table" style="width:100%; border-collapse:collapse">
-              <thead><tr>
-                <th>Pool</th>
-                <th class="right">Share</th>
-              </tr></thead>
-              <tbody></tbody>
-            </table>
+          <div class="mt-6 text-xs text-white/60">
+            Contract / Ticker coming soon • DeDust listing planned
           </div>
         </div>
-
-        <small class="muted">Data refreshes on page load from public APIs.</small>
+        <div class="relative md:order-last order-first">
+          <div class="aspect-square rounded-3xl bg-gradient-to-br from-ton-600/30 to-ton-900/20 border border-white/5 p-1 animate-float">
+            <div class="w-full h-full rounded-2xl bg-slate-950/60 glass grid place-items-center">
+              <!-- Logo mark big -->
+              <svg class="w-40 h-40 drop-shadow" viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="30" fill="url(#g2)" />
+                <defs>
+                  <linearGradient id="g2" x1="0" y1="0" x2="64" y2="64">
+                    <stop offset="0%" stop-color="#7DD3FC"/>
+                    <stop offset="100%" stop-color="#0EA5E9"/>
+                  </linearGradient>
+                </defs>
+                <path d="M20 22h24l-12 20L20 22Z" fill="white" fill-opacity="0.95"/>
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
-
-    <!-- Roadmap -->
-    <section aria-labelledby="roadmap">
-      <div class="section-title"><span class="dot"></span><h3 id="roadmap" style="margin:0">Roadmap</h3></div>
-      <div class="grid cols-2">
-        <div class="card">
-          <h3>Phase 1 — Launch</h3>
-          <ul class="list muted">
-            <li>Website, socials, and community ignition</li>
-            <li>Initial LP &amp; DEX listing on TON</li>
-            <li>First reserve allocations</li>
+    </div>
+  </section>  <!-- About -->  <section id="about" class="py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="p-6 rounded-3xl bg-white/5 border border-white/10">
+          <h3 class="text-lg font-semibold">Auto‑LP Engine</h3>
+          <p class="mt-2 text-white/70">A slice of each trade grows liquidity on DEXes, strengthening price depth and capturing LP fees.</p>
+        </div>
+        <div class="p-6 rounded-3xl bg-white/5 border border-white/10">
+          <h3 class="text-lg font-semibold">Buyback & Burn</h3>
+          <p class="mt-2 text-white/70">Treasury fees route into periodic buybacks with provable burns to reduce supply over time.</p>
+        </div>
+        <div class="p-6 rounded-3xl bg-white/5 border border-white/10">
+          <h3 class="text-lg font-semibold">Holder Rewards</h3>
+          <p class="mt-2 text-white/70">A portion of fees is shared to loyal holders as passive income on the TON network.</p>
+        </div>
+      </div>
+    </div>
+  </section>  <!-- Tokenomics -->  <section id="tokenomics" class="py-16 bg-slate-900/40 border-y border-white/5">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex items-end justify-between flex-wrap gap-4">
+        <h2 class="text-2xl font-bold">Tokenomics</h2>
+        <span class="text-xs text-white/60">Configurable — example below</span>
+      </div>
+      <div class="mt-6 grid md:grid-cols-2 gap-6">
+        <div class="p-6 rounded-3xl bg-white/5 border border-white/10">
+          <h4 class="font-semibold">Trade Taxes</h4>
+          <ul class="mt-3 space-y-2 text-white/80 text-sm">
+            <li>• Buy: <span class="font-semibold">5%</span></li>
+            <li>• Sell: <span class="font-semibold">7%</span></li>
+            <li class="text-white/60 text-xs">(or 5/5 variant — choose your final split)</li>
+          </ul>
+          <div class="mt-4 h-2 rounded bg-white/10 overflow-hidden">
+            <div class="h-full w-[60%] bg-gradient-to-r from-ton-400 to-ton-600"></div>
+          </div>
+        </div>
+        <div class="p-6 rounded-3xl bg-white/5 border border-white/10">
+          <h4 class="font-semibold">Allocation</h4>
+          <ul class="mt-3 space-y-2 text-white/80 text-sm">
+            <li>• <span class="font-semibold">3%–5%</span> → Liquidity & treasury (LP fees)</li>
+            <li>• <span class="font-semibold">2%</span> → Holder rewards</li>
+            <li>• Remaining → Ops / buyback‑and‑burn</li>
+          </ul>
+          <p class="mt-3 text-xs text-white/60">LP fees are recycled to support buybacks and burns while compounding depth.</p>
+        </div>
+      </div>
+    </div>
+  </section>  <!-- Treasury -->  <section id="treasury" class="py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex items-end justify-between flex-wrap gap-4">
+        <h2 class="text-2xl font-bold">Treasury</h2>
+        <div class="text-xs text-white/60">Transparent & on‑chain</div>
+      </div>
+      <div class="mt-6 grid lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 p-6 rounded-3xl bg-white/5 border border-white/10">
+          <div class="flex items-center justify-between gap-3 flex-wrap">
+            <div>
+              <div class="text-sm text-white/60">Treasury Address</div>
+              <code id="treasuryAddress" class="text-sm md:text-base">UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh</code>
+            </div>
+            <div class="flex gap-2">
+              <button id="copyBtn" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-sm">Copy</button>
+              <a class="px-4 py-2 rounded-xl bg-ton-500 hover:bg-ton-400 text-sm font-semibold" target="_blank" rel="noopener" href="https://tonviewer.com/UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh">View on Tonviewer</a>
+            </div>
+          </div>
+          <div class="mt-6 p-4 rounded-2xl bg-slate-900/60 border border-white/5">
+            <div class="text-sm text-white/70">Live Portfolio</div>
+            <p class="text-xs text-white/50 mt-1">For now this shows links to public explorers. You can later wire a JSON API to render balances in‑page.</p>
+            <div class="mt-4 grid sm:grid-cols-2 gap-3 text-sm">
+              <a class="block p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10" target="_blank" rel="noopener" href="https://tonviewer.com/address/UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh/tokens">Tonviewer Tokens ↗</a>
+              <a class="block p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10" target="_blank" rel="noopener" href="https://tonscan.org/address/UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh">TONScan ↗</a>
+            </div>
+          </div>
+        </div>
+        <div class="p-6 rounded-3xl bg-white/5 border border-white/10">
+          <h4 class="font-semibold">Auditables</h4>
+          <ul class="mt-3 space-y-2 text-white/80 text-sm">
+            <li>• LP positions on DeDust</li>
+            <li>• Buyback TX hashes & burn proofs</li>
+            <li>• Monthly snapshot & report</li>
+          </ul>
+          <p class="mt-3 text-xs text-white/60">Add links/screenshots once live.</p>
+        </div>
+      </div>
+    </div>
+  </section>  <!-- Roadmap -->  <section id="roadmap" class="py-16 bg-slate-900/40 border-y border-white/5">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-2xl font-bold">Roadmap</h2>
+      <div class="mt-6 grid md:grid-cols-3 gap-6">
+        <div class="p-6 rounded-3xl bg-white/5 border border-white/10">
+          <div class="text-xs uppercase tracking-wider text-white/50">Phase 1</div>
+          <h4 class="font-semibold mt-1">Launch & LP</h4>
+          <ul class="mt-2 text-sm text-white/80 space-y-1">
+            <li>• Token launch on TON</li>
+            <li>• Initial LP on DeDust</li>
+            <li>• Website + socials live</li>
           </ul>
         </div>
-        <div class="card">
-          <h3>Phase 2 — Flywheel</h3>
-          <ul class="list muted">
-            <li>LP fee recycling → buyback &amp; burn cadence</li>
-            <li>Automated holder rewards</li>
-            <li>Listings &amp; ecosystem partnerships</li>
+        <div class="p-6 rounded-3xl bg-white/5 border border-white/10">
+          <div class="text-xs uppercase tracking-wider text-white/50">Phase 2</div>
+          <h4 class="font-semibold mt-1">Treasury Flywheel</h4>
+          <ul class="mt-2 text-sm text-white/80 space-y-1">
+            <li>• Start buybacks & burns</li>
+            <li>• Publish monthly reports</li>
+            <li>• Holder rewards live</li>
+          </ul>
+        </div>
+        <div class="p-6 rounded-3xl bg-white/5 border border-white/10">
+          <div class="text-xs uppercase tracking-wider text-white/50">Phase 3</div>
+          <h4 class="font-semibold mt-1">Ecosystem</h4>
+          <ul class="mt-2 text-sm text-white/80 space-y-1">
+            <li>• Integrations & partnerships</li>
+            <li>• Community tools & memes</li>
+            <li>• CEX/DEX expansions</li>
           </ul>
         </div>
       </div>
-    </section>
-
-    <!-- FAQ -->
-    <section aria-labelledby="faq">
-      <div class="section-title"><span class="dot"></span><h3 id="faq" style="margin:0">FAQ</h3></div>
-      <details>
-        <summary>How do the taxes create value?</summary>
-        <p class="muted">Buy/sell allocations feed the reserve and rewards. Reserve positions target LP fees; fees fund buybacks and periodic burns, reinforcing token scarcity while sharing value with holders.</p>
-      </details>
-      <details>
-        <summary>Where can I see reserve wallets?</summary>
-        <p class="muted">The live reserve card above shows on-chain balances for the treasury address. We’ll publish additional dashboards post-launch.</p>
-      </details>
-      <details>
-        <summary>Is TonFi just a meme?</summary>
-        <p class="muted">It’s meme-forward for culture and growth, but the mechanics focus on repeatable on-chain cashflows.</p>
-      </details>
-    </section>
-  </main>
-
-  <footer role="contentinfo">
-    <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
-      <small>© <span id="year"></span> TonFi • Built on TON</small>
-      <div class="social" aria-label="Social links">
-        <a href="https://t.me/tonfi" target="_blank" aria-label="Telegram" rel="noopener">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.04 15.03l-.37 5.2c.53 0 .76-.23 1.03-.5l2.48-2.38 5.15 3.77c.94.52 1.61.25 1.87-.87l3.39-15.9c.3-1.38-.5-1.92-1.41-1.58L1.55 9.67c-1.35.53-1.33 1.3-.23 1.64l5.22 1.63 12.16-7.67c.57-.37 1.09-.17.66.2L9.04 15.03z" fill="currentColor"/></svg>
-        </a>
-        <a href="https://x.com/" target="_blank" aria-label="X (Twitter)" rel="noopener">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18.244 2H21l-6.47 7.39L22.5 22h-6.9l-4.46-6.13L5.86 22H3.1l6.89-7.87L1.5 2h7.02l4.02 5.57L18.244 2Zm-1.207 18h1.951L7.05 4h-2L17.037 20Z" fill="currentColor"/></svg>
-        </a>
-        <a href="#" target="_blank" aria-label="Contract" rel="noopener" title="View Contract">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 2h9l3 3v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 2v16h10V6h-3V4H6Zm2 4h6v2H8V8Zm0 4h6v2H8v-2Zm0 4h4v2H8v-2Z" fill="currentColor"/></svg>
-        </a>
+    </div>
+  </section>  <!-- CTA -->  <section id="cta" class="py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="p-8 rounded-3xl bg-gradient-to-br from-ton-600/30 to-ton-900/20 border border-white/10">
+        <div class="grid md:grid-cols-2 gap-6 items-center">
+          <div>
+            <h3 class="text-2xl font-bold">Ready to ape (responsibly)?</h3>
+            <p class="mt-2 text-white/80">DYOR. When live, you’ll find official links here: DEX, contract, docs, and audits.</p>
+          </div>
+          <div class="flex md:justify-end gap-3">
+            <a href="#" class="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/20">Docs</a>
+            <a href="#" class="px-5 py-3 rounded-2xl bg-ton-500 hover:bg-ton-400 font-semibold">Trade on DeDust</a>
+          </div>
+        </div>
       </div>
     </div>
-  </footer>
-
-  <script>
-    // ===== UI niceties =====
+  </section>  <!-- Footer -->  <footer class="py-10 text-sm text-white/60">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
+      <div>© <span id="year"></span> TONFI. Community‑run meme on TON.</div>
+      <div class="flex gap-4">
+        <a class="hover:text-white" href="#">Telegram</a>
+        <a class="hover:text-white" href="#">X (Twitter)</a>
+        <a class="hover:text-white" href="#">GitHub</a>
+      </div>
+    </div>
+  </footer>  <!-- Scripts -->  <script>
+    // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Subtle animated TON marks (SVG)
-    (function(){
-      const fall = document.getElementById('fall');
-      const N = 26;
-      for (let i=0;i<N;i++){
-        const el = document.createElement('div');
-        el.className = 'ton';
-        const size = 14 + Math.random()*12;
-        el.style.left = (Math.random()*100)+'vw';
-        el.style.animationDuration = (7 + Math.random()*10)+'s';
-        el.style.animationDelay = (Math.random()*-12)+'s';
-        el.style.top = (-10 - Math.random()*90) + 'vh';
-        el.innerHTML = `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" style="display:block">
-          <defs><linearGradient id="g${i}" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#15A9FF"/><stop offset="100%" stop-color="#3FE7FF"/></linearGradient></defs>
-          <path d="M12 2l8.66 5v10L12 22l-8.66-5V7L12 2z" fill="url(#g${i})"/>
-        </svg>`;
-        fall.appendChild(el);
-      }
-    })();
+    // Mobile menu
+    const mbtn = document.getElementById('menuBtn');
+    const mmenu = document.getElementById('mobileMenu');
+    mbtn?.addEventListener('click', () => mmenu.classList.toggle('hidden'));
 
-    // ===== Reserve Portfolio (Live) =====
-    const RESERVE = "UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh"; // provided address
-    const TONAPI_BASE = "https://tonapi.io";
-    const TONAPI_KEY = ""; // optional: paste your TonAPI key if you have one, else leave empty
-    const DEDUST_API = "https://api.dedust.io";
-
-    const $ = sel => document.querySelector(sel);
-
-    async function fetchJSON(url, opts={}) {
-      const headers = Object.assign(
-        { "accept": "application/json" },
-        (TONAPI_KEY && url.startsWith(TONAPI_BASE)) ? { "Authorization": `Bearer ${TONAPI_KEY}` } : {}
-      );
-      const res = await fetch(url, { ...opts, headers });
-      if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
-      return res.json();
+    // Copy buttons
+    const treasury = document.getElementById('treasuryAddress').textContent.trim();
+    function copyText() {
+      navigator.clipboard.writeText(treasury).then(() => {
+        alert('Treasury address copied!');
+      });
     }
-
-    function formatAmount(n, d=4) {
-      const num = Number(n);
-      if (!isFinite(num)) return "0";
-      return num.toLocaleString(undefined, { maximumFractionDigits: d });
-    }
-
-    async function loadReserve() {
-      const status = $("#reserve-status");
-      try {
-        // 1) TON balance (nanotons → TON)
-        const acc = await fetchJSON(`${TONAPI_BASE}/v2/accounts/${RESERVE}`);
-        const ton = (acc?.balance || 0) / 1e9;
-        $("#ton-balance").textContent = `TON: ${formatAmount(ton, 4)} TON`;
-
-        // 2) Jettons (tokens) held by the address
-        const jets = await fetchJSON(`${TONAPI_BASE}/v2/accounts/${RESERVE}/jettons`);
-        const jtBody = $("#jettons-table tbody");
-        jtBody.innerHTML = "";
-        (jets?.balances || []).forEach(j => {
-          const meta = j.jetton?.metadata || {};
-          const sym = meta.symbol || meta.ticker || "JETTON";
-          const decimals = Number(meta.decimals || 9);
-          const bal = Number(j.balance || 0) / Math.pow(10, decimals);
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${sym}</td>
-            <td class="right">${formatAmount(bal)}</td>
-          `;
-          jtBody.appendChild(tr);
-        });
-        if ((jets?.balances || []).length === 0) {
-          jtBody.innerHTML = `<tr><td colspan="2" class="muted">No jettons detected</td></tr>`;
-        }
-
-        // 3) LP positions on DeDust
-        const dd = await fetchJSON(`${DEDUST_API}/v2/accounts/${RESERVE}/assets`);
-        const lpBody = $("#lp-table tbody");
-        lpBody.innerHTML = "";
-
-        (dd?.items || []).forEach(it => {
-          const isLP = it.type === "lp_account" || it.type === "lp_token" || it.kind === "lp";
-          if (isLP) {
-            const poolName = it.pool?.symbol || it.pool?.name || it.pool_address || it.symbol || "Pool";
-            const amount = it.amount ?? it.balance ?? 0;
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-              <td>${poolName}</td>
-              <td class="right">${formatAmount(amount)}</td>
-            `;
-            lpBody.appendChild(tr);
-          }
-        });
-        if (!lpBody.children.length) {
-          lpBody.innerHTML = `<tr><td colspan="2" class="muted">No LP positions found on DeDust</td></tr>`;
-        }
-
-        status.textContent = "Live on-chain data fetched.";
-      } catch (e) {
-        console.error(e);
-        $("#reserve-status").textContent = "Could not load reserve data (public API error).";
-      }
-    }
-
-    // Init
-    loadReserve();
-  </script>
-</body>
+    document.getElementById('copyBtn')?.addEventListener('click', copyText);
+    document.getElementById('addrCopyTop')?.addEventListener('click', copyText);
+  </script></body>
 </html>
