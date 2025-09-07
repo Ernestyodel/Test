@@ -1,0 +1,168 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TONFI — Liquidity-Powered Meme on TON</title>
+  <meta name="description" content="TONFI is a meme-driven token on TON with auto-LP reserve, buy-back-and-burn, and holder rewards." />
+  <meta name="theme-color" content="#0098EA" />
+  <style>/* styles unchanged from your version */</style>
+</head>
+<body>
+  <!-- header unchanged -->
+  <main>
+    <!-- hero + about unchanged -->
+    <section id="treasury">
+      <div class="container">
+        <h3 class="section-title">Treasury (Reserve) Wallet</h3>
+        <div class="card"><div class="card-inner">
+          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:12px">
+            <h4 style="margin:0">Total Holdings</h4>
+            <span class="pill" id="treasuryUsd">$—</span>
+            <button class="copy" id="refreshBtn">↻ Refresh</button>
+            <span class="muted" id="lastUpdated">Updated: —</span>
+          </div>
+          <div class="treasury">
+            <span class="address" id="addressText">UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh</span>
+            <button class="copy" id="copyBtn">Copy</button>
+            <a class="cta secondary" href="https://tonviewer.com/UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh" target="_blank" rel="noopener">View on Explorer</a>
+          </div>
+          <p class="muted" style="margin-top:10px">Totals estimated from TonAPI balances + Dexscreener USD prices (TON + jettons). Display shows only the combined USD value.</p>
+        </div></div>
+      </div>
+    </section>
+  </main>
+  <footer><!-- unchanged --></footer>
+  <script>
+    // Year + mobile drawer
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const drawer = document.getElementById('drawer');
+    const menuBtn = document.getElementById('menuBtn');
+    function toggleDrawer(open){ drawer.classList.toggle('open', open); }
+    menuBtn?.addEventListener('click', () => toggleDrawer(true));// Copy address
+const addrEl = document.getElementById('addressText');
+const copyBtn = document.getElementById('copyBtn');
+copyBtn?.addEventListener('click', async () => {
+  try{
+    await navigator.clipboard.writeText(addrEl.textContent.trim());
+    copyBtn.textContent = 'Copied!';
+    copyBtn.classList.add('ok');
+    setTimeout(()=>{copyBtn.textContent='Copy'; copyBtn.classList.remove('ok')}, 1400);
+  }catch(e){
+    copyBtn.textContent = 'Select & copy';
+  }
+});
+
+// TON rain generator (lightweight)
+(function rain(){
+  const host = document.getElementById('tonRain');
+  if(!host) return;
+  const drops = 26; const vw = Math.max(document.documentElement.clientWidth||0, window.innerWidth||0);
+  for(let i=0;i<drops;i++){
+    const d = document.createElement('div'); d.className='drop';
+    const left = Math.random()*vw; const delay = Math.random()*6; const duration = 6 + Math.random()*10; const size = 12 + Math.random()*18;
+    d.style.left = left + 'px'; d.style.animationDuration = duration + 's'; d.style.animationDelay = delay + 's'; d.style.width = size + 'px'; d.style.height = size + 'px';
+    host.appendChild(d);
+  }
+})();
+
+// ===== Treasury USD Aggregator (TonAPI + Dexscreener) =====
+async function fetchTreasuryUSD(){
+  const addr = 'UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh';
+  const usdEl = document.getElementById('treasuryUsd');
+  const updEl = document.getElementById('lastUpdated');
+  const refreshBtn = document.getElementById('refreshBtn');
+  const fmt = (n)=> n.toLocaleString(undefined,{maximumFractionDigits:2});
+
+  const setLoading = (v)=>{
+    if(!refreshBtn) return;
+    refreshBtn.disabled = v;
+    refreshBtn.textContent = v ? 'Refreshing…' : '↻ Refresh';
+  };
+
+  // Helper: fetch JSON with timeout
+  const jget = async (url, opts={}) => {
+    const ctrl = new AbortController();
+    const t = setTimeout(()=>ctrl.abort(), 9000);
+    try{
+      const res = await fetch(url, {signal: ctrl.signal, ...opts});
+      clearTimeout(t);
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      return await res.json();
+    }catch(e){ clearTimeout(t); throw e; }
+  };
+
+  try{
+    setLoading(true);
+    // 1) Get native TON + jettons from TonAPI
+    let tonBalanceNano = 0n; // BigInt
+    let jettons = [];
+    try{
+      const info = await jget(`https://lb.tonapi.io/api-v2/accounts/${addr}`);
+      if(info && typeof info.balance === 'string') tonBalanceNano = BigInt(info.balance);
+      const jets = await jget(`https://lb.tonapi.io/api-v2/accounts/${addr}/jettons`);
+      if(jets && Array.isArray(jets.balances)) jettons = jets.balances;
+    }catch(e){ console.warn('TonAPI fetch', e); }
+
+    // 2) TON price in USD from Dexscreener (choose highest-liquidity TON/USDT on TON)
+    let tonUsd = 0;
+    try{
+      const ds = await jget(`https://api.dexscreener.com/latest/dex/search?q=TON/USDT`);
+      const pairs = (ds && ds.pairs) ? ds.pairs.filter(p=> p.chainId==='ton' && (p.quoteToken?.symbol||'').toUpperCase().includes('USDT')): [];
+      const best = pairs.sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0))[0];
+      tonUsd = best ? parseFloat(best.priceUsd||'0') : 0;
+    }catch(e){ console.warn('Dexscreener TON price', e); }
+
+    // 3) Sum USD: native TON first
+    let sumUsd = 0;
+    if(tonUsd>0 && tonBalanceNano>0n){
+      const tonAmount = Number(tonBalanceNano) / 1e9; // nanoton -> TON
+      sumUsd += tonAmount * tonUsd;
+    }
+
+    // 4) Price jettons via Dexscreener tokens endpoint (batch by 30)
+    try{
+      const items = jettons.map(j=>({
+        master: j.jetton?.address || j.jetton?.id || j.jetton_address || null,
+        balance: j.balance, // string in minimal units
+        decimals: j.jetton?.decimals ?? j.decimals ?? 9
+      })).filter(x=>x.master);
+
+      for(let i=0;i<items.length;i+=30){
+        const chunk = items.slice(i,i+30);
+        const addrs = chunk.map(c=>c.master).join(',');
+        const ds = await jget(`https://api.dexscreener.com/tokens/v1/ton/${addrs}`);
+        if(Array.isArray(ds)){
+          for(const tok of ds){
+            const found = chunk.find(c=> c.master.toLowerCase() === tok.baseToken?.address?.toLowerCase());
+            if(!found) continue;
+            const price = parseFloat(tok.priceUsd||'0');
+            if(price>0){
+              const bal = Number(found.balance) / Math.pow(10, Number(found.decimals||9));
+              sumUsd += bal * price;
+            }
+          }
+        }
+      }
+    }catch(e){ console.warn('Jetton pricing', e); }
+
+    // 5) Display only total holdings USD
+    usdEl.textContent = (isFinite(sumUsd) && sumUsd>0) ? ('$'+fmt(sumUsd)) : '$0.00';
+    updEl.textContent = 'Updated: ' + new Date().toLocaleString();
+  }catch(e){
+    console.error(e);
+    usdEl.textContent = '$0.00';
+    updEl.textContent = 'Update failed';
+  }finally{
+    setLoading(false);
+  }
+}
+
+// Run on load & on click
+fetchTreasuryUSD();
+document.getElementById('refreshBtn')?.addEventListener('click', fetchTreasuryUSD);
+
+  </script>
+</body>
+</html>
