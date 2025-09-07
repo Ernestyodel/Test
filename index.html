@@ -1,349 +1,401 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TonFi — Index & Rewards (TON)</title>
-<meta name="description" content="TonFi on TON: index-style treasury, live rewards dashboard, and wallet connect."/>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#0b1220; --panel:#0e1729; --ink:#eaf2ff; --muted:#96a7c8; --brand:#0098ea; --ok:#21d190; --warn:#ffd166;
-  --b:#1b2945; --radius:18px;
-}
-*{box-sizing:border-box}html,body{margin:0;background:radial-gradient(1200px 800px at 20% -10%, #0f1b33 0%, #0b1220 60%), #0b1220;color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-a{color:var(--brand);text-decoration:none}
-header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px clamp(14px,4vw,28px);background:rgba(7,12,24,.7);backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
-.brand{display:flex;align-items:center;gap:10px}
-.brand img{width:34px;height:34px;border-radius:50%;box-shadow:0 6px 16px rgba(0,152,234,.25)}
-.brand h1{margin:0;font-size:18px;font-weight:800;letter-spacing:.2px}
-.nav{display:flex;gap:10px;flex-wrap:wrap}
-.tab{padding:8px 12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);border-radius:999px;font-weight:700;font-size:13px}
-.tab.active{background:rgba(0,152,234,.16);border-color:rgba(0,152,234,.3)}
-main{max-width:1120px;margin:0 auto;padding:20px clamp(14px,4vw,28px) 56px}
-.grid{display:grid;grid-template-columns:1fr;gap:18px}
-@media(min-width:860px){.grid{grid-template-columns:1.2fr .8fr}}
-.card{background:var(--panel);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius)}
-.card .hd{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
-.card .hd h2{margin:0;font-size:16px;letter-spacing:.2px}
-.big{padding:20px}
-.usd{font-size:40px;font-weight:800;letter-spacing:-.5px}
-.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
-.pill{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--muted);font-weight:600;font-size:12px}
-.kvs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.kv{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px}
-.kv small{display:block;color:var(--muted);font-weight:600}
-.kv strong{font-size:14px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:var(--ink);font-weight:700}
-.btn:hover{background:rgba(255,255,255,.07)}
-.list{padding:12px 16px 16px}
-.list ul{list-style:none;margin:0;padding:0}
-.list li{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px dashed rgba(255,255,255,.08)}
-.list li:last-child{border-bottom:none}
-.muted{color:var(--muted)}
-.status{display:flex;align-items:center;gap:8px}
-.dot{width:8px;height:8px;border-radius:50%}.ok{background:var(--ok)}.warn{background:var(--warn)}
-.hero{padding:28px;border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);background:linear-gradient(180deg,rgba(0,152,234,.12),rgba(255,255,255,0))}
-.hero h2{margin:0 0 8px;font-size:28px}
-.hero p{margin:0;color:#cfe6ff}
-footer{margin-top:28px;color:var(--muted);font-size:12px}
-.rain{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;opacity:.12}
-.rain i{position:absolute;width:12px;height:14px;background:linear-gradient(180deg,#58caff,#0098ea);clip-path:polygon(50% 0%, 95% 30%, 95% 70%, 50% 100%, 5% 70%, 5% 30%);border-radius:2px;animation:fall linear infinite}
-@keyframes fall{to{transform:translateY(120vh) rotate(15deg)}}
-.connect{display:flex;gap:10px;flex-wrap:wrap}
-.cta{display:flex;gap:10px;flex-wrap:wrap}
-.hide{display:none}
-</style>
-</head>
-<body>
-<div class="rain" aria-hidden="true"></div>
-<header>
-  <div class="brand">
-    <img src="tonfi-logo.png" alt="TonFi logo"/>
-    <h1>TonFi</h1>
-  </div>
-  <nav class="nav">
-    <a href="#home" class="tab active" data-tab="home">Home</a>
-    <a href="#index" class="tab" data-tab="index">Index</a>
-    <a href="#rewards" class="tab" data-tab="rewards">Rewards</a>
-  </nav>
-  <div class="connect">
-    <button id="connect" class="tab">Connect Wallet</button>
-  </div>
-</header>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TonFi — Treasury & DAO</title>
+  <meta name="description" content="TonFi • Community-driven treasury on TON with a clean DAO suggestion flow and a live treasury value widget." />
 
-<main>
-  <!-- HOME -->
-  <section id="home" class="page">
-    <div class="hero">
-      <h2>Solana-style dashboard, but for <strong>TON</strong>.</h2>
-      <p>Index-like TonFi concept with live treasury valuation and a rewards feed — inspired by Burrito.fi’s UX, rebuilt for the TON ecosystem.</p>
-      <div class="cta" style="margin-top:14px">
-        <a class="btn" href="#index">Learn the Index</a>
-        <a class="btn" href="#rewards">View Rewards</a>
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind config for a clean, modern look
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ton: {
+              50: '#ECF9FF',
+              100: '#D6F1FF',
+              200: '#AEE2FF',
+              300: '#7ED0FF',
+              400: '#4DB9FF',
+              500: '#25A3FF',
+              600: '#0D8CEF',
+              700: '#0A6FC0',
+              800: '#0A5A9A',
+              900: '#0C4A7D',
+            }
+          },
+          boxShadow: { soft: '0 10px 30px rgba(0,0,0,0.08)' }
+        }
+      }
+    }
+  </script>
+  <link rel="icon" href="tonfi-logo.png" />
+  <style>
+    .glass { backdrop-filter: blur(10px); background: rgba(255,255,255,0.08); }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-slate-100">
+  <!-- Navbar -->
+  <header class="sticky top-0 z-30 bg-slate-950/70 glass border-b border-white/5">
+    <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="tonfi-logo.png" alt="TonFi" class="h-9 w-9 rounded-full ring-1 ring-white/10" />
+        <span class="font-semibold tracking-tight text-white">TonFi</span>
+      </div>
+      <nav class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#treasury" class="hover:text-ton-300 transition">Treasury</a>
+        <a href="#dao" class="hover:text-ton-300 transition">DAO</a>
+        <a href="#about" class="hover:text-ton-300 transition">About</a>
+      </nav>
+      <a href="https://t.me/" target="_blank" class="inline-flex items-center gap-2 rounded-2xl bg-ton-500 hover:bg-ton-400 active:bg-ton-600 transition px-4 py-2 text-sm font-semibold shadow-soft">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M9.04 15.314 8.89 19.09c.54 0 .78-.232 1.062-.51l2.55-2.46 5.29 3.876c.97.535 1.66.253 1.93-.9l3.5-16.39.001-.001c.31-1.45-.52-2.02-1.48-1.67L1.6 9.25c-1.42.55-1.4 1.34-.24 1.7l5.72 1.78L19.65 5.2c.63-.413 1.2-.184.73.23"/></svg>
+        Join Telegram
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-ton-900/40 via-slate-900 to-slate-950"></div>
+    <div class="relative mx-auto max-w-7xl px-4 py-20 md:py-28">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h1 class="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
+            Community-Driven <span class="text-ton-400">Treasury</span> on TON
+          </h1>
+          <p class="mt-4 text-slate-300 max-w-xl">
+            TonFi allocates buy-side liquidity into curated TON ecosystem tokens. Holders benefit via buy-back-and-burn and passive distributions.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#treasury" class="rounded-2xl bg-white text-slate-900 hover:bg-slate-100 transition px-5 py-3 text-sm font-semibold shadow-soft">View Treasury</a>
+            <a href="#dao" class="rounded-2xl border border-white/10 hover:border-white/20 px-5 py-3 text-sm font-semibold">Suggest a Token</a>
+          </div>
+          <p class="mt-3 text-xs text-slate-400">Treasury address: <span id="addrText" class="font-mono"></span></p>
+        </div>
+        <div class="relative">
+          <div class="rounded-3xl border border-white/10 p-6 bg-slate-900/40 shadow-soft">
+            <div class="text-xs uppercase tracking-widest text-slate-400 mb-2">Live Treasury Value</div>
+            <div class="flex items-end gap-3">
+              <div id="treasuryValue" class="text-5xl md:text-6xl font-extrabold">$—</div>
+              <div id="treasuryBadge" class="mb-2 text-xs px-2 py-1 rounded-full bg-white/5 border border-white/10 text-slate-300">Loading…</div>
+            </div>
+            <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
+              <div class="rounded-2xl border border-white/10 p-4">
+                <div class="text-slate-400">TON Balance</div>
+                <div id="tonBalance" class="font-semibold">—</div>
+              </div>
+              <div class="rounded-2xl border border-white/10 p-4">
+                <div class="text-slate-400">Last Updated</div>
+                <div id="lastUpdated" class="font-semibold">—</div>
+              </div>
+            </div>
+            <button id="refreshBtn" class="mt-6 w-full rounded-2xl bg-ton-500 hover:bg-ton-400 active:bg-ton-600 transition px-5 py-3 text-sm font-semibold">Refresh</button>
+            <p class="mt-3 text-xs text-slate-400" id="dataSource">Data source: —</p>
+          </div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <section class="grid" style="margin-top:18px">
-      <section class="card">
-        <div class="hd">
-          <h2>Treasury Total (USD)</h2>
-          <div class="status"><span id="srcDot" class="dot warn"></span><small id="srcTxt" class="muted">Loading…</small></div>
-        </div>
-        <div class="big">
-          <div id="treasuryUsd" class="usd">$0.00</div>
-          <div class="row">
-            <span class="pill">Treasury: <a id="addrLink" target="_blank" rel="noopener"></a></span>
-            <span class="pill">Updated: <span id="updated">—</span></span>
+  <!-- Treasury Section -->
+  <section id="treasury" class="relative border-t border-white/5">
+    <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-ton-900/20 via-slate-950 to-slate-950"></div>
+    <div class="relative mx-auto max-w-7xl px-4 py-16">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl md:text-3xl font-bold">Treasury Overview</h2>
+        <a id="viewOnExplorer" target="_blank" class="text-sm text-ton-300 hover:text-ton-200 underline underline-offset-4">Open in Explorer</a>
+      </div>
+      <p class="text-slate-300 max-w-3xl">Below is an aggregated USD value of the treasury wallet. If the primary data provider is rate-limited, this widget automatically falls back to alternative sources and clearly labels the mode.</p>
+    </div>
+  </section>
+
+  <!-- DAO: Suggest a Token -->
+  <section id="dao" class="relative border-t border-white/5">
+    <div class="relative mx-auto max-w-7xl px-4 py-16">
+      <div class="grid md:grid-cols-2 gap-10 items-start">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-bold">DAO: Suggest a Token</h2>
+          <p class="mt-2 text-slate-300">Have a token TonFi should buy and hold? Share your best ideas with a short rationale. Popular suggestions will be reviewed and queued for on-chain votes.</p>
+          <ul class="mt-4 space-y-2 text-sm text-slate-300">
+            <li>• Transparent queue of community suggestions</li>
+            <li>• Periodic shortlists for holder voting</li>
+            <li>• Buy-back-and-burn funded by treasury yields</li>
+          </ul>
+
+          <!-- Live list -->
+          <div class="mt-8">
+            <h3 class="font-semibold mb-2">Recent Suggestions</h3>
+            <div id="suggestionsList" class="space-y-3 text-sm">
+              <div class="text-slate-400">Loading…</div>
+            </div>
           </div>
-          <div class="kvs">
-            <div class="kv"><small>TON balance</small><strong id="tonBal">—</strong></div>
-            <div class="kv"><small>TON price (USD)</small><strong id="tonPrice">—</strong></div>
-            <div class="kv"><small>Jettons value (USD)</small><strong id="jetUsd">—</strong></div>
-            <div class="kv"><small>Coverage</small><strong id="coverage">—</strong></div>
-          </div>
-          <p class="muted" style="margin-top:12px">Data via TonAPI (balances & rates); if prices rate-limit, falls back to TON USD from a secondary source.</p>
         </div>
-      </section>
 
-      <section class="card">
-        <div class="hd"><h2>Breakdown</h2><a id="refreshBal" class="btn">↻ Refresh</a></div>
-        <div class="list"><ul id="holdings"><li><span class="muted">Loading…</span><span>—</span></li></ul></div>
-      </section>
-    </section>
+        <div class="rounded-3xl border border-white/10 p-6 bg-slate-900/40 shadow-soft">
+          <form id="suggestForm" class="space-y-4" data-enhanced>
+            <input type="hidden" name="ua" value="" />
+            <input type="hidden" name="ref" value="" />
+            <div>
+              <label class="block text-sm text-slate-300 mb-1">Token (name or jetton address)</label>
+              <input required name="token" class="w-full rounded-2xl bg-slate-950 border border-white/10 px-4 py-3 outline-none focus:border-ton-400" placeholder="e.g., NOT, STON, or EQC…" />
+            </div>
+            <div>
+              <label class="block text-sm text-slate-300 mb-1">Why should TonFi buy this?</label>
+              <textarea required name="reason" rows="3" class="w-full rounded-2xl bg-slate-950 border border-white/10 px-4 py-3 outline-none focus:border-ton-400" placeholder="Brief, specific reasons: liquidity, volume, catalysts, fundamentals…"></textarea>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <input name="handle" class="rounded-2xl bg-slate-950 border border-white/10 px-4 py-3 outline-none focus:border-ton-400" placeholder="@telegram (optional)" />
+              <input name="email" type="email" class="rounded-2xl bg-slate-950 border border-white/10 px-4 py-3 outline-none focus:border-ton-400" placeholder="Email (optional)" />
+            </div>
 
-    <footer>© TonFi • Built for TON. Wallet connection by TonConnect.</footer>
-  </section>
-
-  <!-- INDEX -->
-  <section id="index" class="page hide">
-    <section class="card">
-      <div class="hd"><h2>TonFi Index</h2></div>
-      <div class="big">
-        <p class="muted">One token. Treasury-driven exposure to TON ecosystem assets. Flow from activity strengthens reserves and supports rewards.</p>
-        <div class="kvs">
-          <div class="kv"><small>Chain</small><strong>TON</strong></div>
-          <div class="kv"><small>Treasury</small><strong id="shortAddr">—</strong></div>
-          <div class="kv"><small>Dashboard</small><strong><a href="#rewards">Rewards page</a></strong></div>
-          <div class="kv"><small>DEX</small><strong><a id="dexLink" target="_blank" rel="noopener">DeDust / STON.fi</a></strong></div>
+            <button class="w-full rounded-2xl bg-white text-slate-900 hover:bg-slate-100 active:bg-white transition px-5 py-3 text-sm font-semibold">Submit Suggestion</button>
+            <p class="text-xs text-slate-400">Submissions are stored server-side and shown in the list. If the API is unavailable, the site falls back to email so nothing gets lost.</p>
+          </form>
         </div>
       </div>
-    </section>
+    </div>
   </section>
 
-  <!-- REWARDS -->
-  <section id="rewards" class="page hide">
-    <section class="card">
-      <div class="hd">
-        <h2>Protocol Rewards (TON)</h2>
-        <a id="refreshRw" class="btn">↻ Refresh</a>
-      </div>
-      <div class="big">
-        <div class="row">
-          <span class="pill">Rewards wallet: <a id="rwAddr" target="_blank" rel="noopener">—</a></span>
-          <span class="pill">Status: <span id="rwStatus">Setup needed</span></span>
+  <!-- About -->
+  <section id="about" class="relative border-t border-white/5">
+    <div class="relative mx-auto max-w-7xl px-4 py-16">
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="rounded-3xl border border-white/10 p-6 bg-slate-900/40">
+          <h3 class="font-semibold mb-2">Tax Structure</h3>
+          <p class="text-slate-300 text-sm">Target 5/5 or 5/7: buy/sell fees route 3–5% to liquidity + buy-back-and-burn; 2% distributed to holders as passive income.</p>
         </div>
-        <div class="kvs" style="margin-top:10px">
-          <div class="kv"><small>Total TON Distributed</small><strong id="rwTotal">—</strong></div>
-          <div class="kv"><small>Payout Cycles</small><strong id="rwCycles">—</strong></div>
-          <div class="kv"><small>Unique Recipients</small><strong id="rwRecipients">—</strong></div>
-          <div class="kv"><small>Last 24h</small><strong id="rw24h">—</strong></div>
+        <div class="rounded-3xl border border-white/10 p-6 bg-slate-900/40">
+          <h3 class="font-semibold mb-2">Treasury Strategy</h3>
+          <p class="text-slate-300 text-sm">Use LP fees and curated holdings to accumulate yield, powering buybacks and long-term scarcity.</p>
         </div>
-        <p class="muted" style="margin-top:12px">Reads outbound native TON from the rewards wallet and summarizes cycles (similar layout to Burrito.fi’s Rewards dashboard). Set the wallet below.</p>
-        <div class="row" style="margin-top:10px">
-          <input id="rwInput" placeholder="Paste rewards wallet (EQ…/UQ…)" style="flex:1; padding:10px;border-radius:10px;border:1px solid var(--b);background:#0a1220;color:var(--ink)"/>
-          <button id="rwSave" class="btn">Save</button>
+        <div class="rounded-3xl border border-white/10 p-6 bg-slate-900/40">
+          <h3 class="font-semibold mb-2">Transparency</h3>
+          <p class="text-slate-300 text-sm">Live wallet value, clear rebalancing notes, and public vote records for allocations.</p>
         </div>
       </div>
-    </section>
-
-    <section class="card">
-      <div class="hd"><h2>Latest Payouts</h2></div>
-      <div class="list"><ul id="rwTxs"><li><span class="muted">No rewards wallet set.</span><span>—</span></li></ul></div>
-    </section>
+    </div>
   </section>
-</main>
 
-<!-- TonConnect UI (wallet connect on TON) -->
-<script src="https://unpkg.com/@tonconnect/ui@2.0.9/dist/tonconnect-ui.min.js"></script>
-<script>
-/** ====== CONFIG ====== **/
-const TREASURY = "UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh";
-const TONSCAN = (a)=>`https://tonscan.org/address/${a}`;
-const TONAPI = "https://tonapi.io";
-const COINGECKO_TON = "https://api.coingecko.com/api/v3/simple/price?ids=toncoin&vs_currencies=usd"; // fallback
+  <!-- Footer -->
+  <footer class="border-t border-white/5">
+    <div class="mx-auto max-w-7xl px-4 py-10 text-sm text-slate-400 flex flex-col md:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <img src="tonfi-logo.png" alt="TonFi" class="h-7 w-7 rounded-full ring-1 ring-white/10" />
+        <span>© <span id="year"></span> TonFi • Built on TON</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="#dao" class="hover:text-slate-200">Submit a Token</a>
+        <a href="#treasury" class="hover:text-slate-200">Treasury</a>
+      </div>
+    </div>
+  </footer>
 
-// rewards wallet (set later, stored in localStorage)
-let REWARDS_WALLET = localStorage.getItem("tonfi_rewards_wallet") || "";
+  <!-- ====== CONFIG ====== -->
+  <script>
+    // >>>> Your treasury address
+    const TREASURY_ADDRESS = 'UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh';
 
-/** ====== NAV & RAIN ====== **/
-(function spawnRain(){const wrap=document.querySelector(".rain");const n=36;for(let i=0;i<n;i++){const d=document.createElement("i");d.style.left=Math.random()*100+"vw";d.style.top=(-10-Math.random()*120)+"vh";d.style.animationDuration=(6+Math.random()*8)+"s";d.style.opacity=(0.5+Math.random()*0.5);wrap.appendChild(d);}})();
+    // API-first (serverless) submission
+    const SUGGEST_POST_URL = '/api/suggest';
+  </script>
 
-function show(tab){document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));document.querySelectorAll(".page").forEach(p=>p.classList.add("hide"));document.querySelector(`[data-tab="${tab}"]`)?.classList.add("active");document.getElementById(tab)?.classList.remove("hide");}
-window.addEventListener("hashchange",()=>show(location.hash.replace("#","")||"home"));
-show(location.hash.replace("#","")||"home");
+  <!-- ====== APP LOGIC ====== -->
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const fmtUSD = (n) => n.toLocaleString(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 2 });
+    const fmtTON = (n) => `${n.toLocaleString(undefined, { maximumFractionDigits: 4 })} TON`;
+    const cacheKey = (k) => `tonfi_${k}`;
 
-/** ====== WALLET CONNECT (TonConnect) ====== **/
-const connectBtn = document.getElementById("connect");
-const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({manifestUrl:"https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json"});
-connectBtn.addEventListener("click",()=>tonConnectUI.openModal());
-
-/** ====== TREASURY DASHBOARD ====== **/
-const addrLink=document.getElementById("addrLink"); addrLink.textContent=TREASURY.slice(0,10)+"…"+TREASURY.slice(-6); addrLink.href=TONSCAN(TREASURY);
-document.getElementById("shortAddr").textContent=TREASURY.slice(0,8)+"…"+TREASURY.slice(-6);
-document.getElementById("dexLink").href="https://dedust.io"; // adjust to your live market later
-
-const srcDot=document.getElementById("srcDot"), srcTxt=document.getElementById("srcTxt");
-const treasuryUsd=document.getElementById("treasuryUsd"), tonBalEl=document.getElementById("tonBal"), tonPriceEl=document.getElementById("tonPrice"), jetUsdEl=document.getElementById("jetUsd"), covEl=document.getElementById("coverage"), updatedEl=document.getElementById("updated"), holdingsEl=document.getElementById("holdings");
-
-function fmtUsd(x){return x.toLocaleString(undefined,{style:"currency",currency:"USD",maximumFractionDigits:2});}
-function fmtTon(x){return x.toLocaleString(undefined,{maximumFractionDigits:4});}
-function nowLocal(){try{return new Date().toLocaleString(undefined,{hour12:false});}catch{return new Date().toISOString();}}
-async function getJSON(u){const r=await fetch(u,{headers:{accept:"application/json"}});if(!r.ok)throw new Error("HTTP "+r.status);return r.json();}
-
-async function loadTreasury(){
-  document.getElementById("refreshBal").disabled=true;
-  srcTxt.textContent="TonAPI…"; srcDot.className="dot warn";
-  holdingsEl.innerHTML=`<li><span class="muted">Loading…</span><span>—</span></li>`;
-  tonBalEl.textContent="—"; tonPriceEl.textContent="—"; jetUsdEl.textContent="—"; covEl.textContent="—"; treasuryUsd.textContent="$0.00";
-
-  try{
-    const acc = await getJSON(`${TONAPI}/v2/accounts/${TREASURY}`);
-    const tonNano = acc.balance ?? acc?.account?.balance ?? 0;
-    const ton = Number(tonNano)/1e9;
-
-    const jets = await getJSON(`${TONAPI}/v2/accounts/${TREASURY}/jettons?limit=200`);
-    const jetItems = (jets.balances || jets.items || []).filter(Boolean);
-
-    const tokens = ["ton"]; const list=[];
-    for(const it of jetItems){
-      const meta=it.jetton||it.jetton_info||{};
-      const master=meta?.address||meta?.master||meta?.master_address||meta?.id;
-      const sym=meta?.symbol||meta?.name||"JETTON";
-      const dec=Number(meta?.decimals ?? it?.balance?.decimals ?? 9);
-      const amt=Number(it.balance??it?.quantity??0)/(10**dec);
-      if(amt>0 && master){ tokens.push(master); list.push({sym, master, amt}); }
+    function setUI({ usd, ton, source, badge, when }) {
+      if (usd != null) $('treasuryValue').textContent = fmtUSD(usd);
+      if (ton != null) $('tonBalance').textContent = fmtTON(ton);
+      if (source) $('dataSource').textContent = `Data source: ${source}`;
+      if (badge) $('treasuryBadge').textContent = badge;
+      $('lastUpdated').textContent = when ? new Date(when).toLocaleString() : new Date().toLocaleString();
     }
 
-    let rates;
-    try{
-      const param=encodeURIComponent(tokens.join(","));
-      const r=await getJSON(`${TONAPI}/v2/rates?tokens=${param}&currencies=usd`);
-      rates=r?.rates||r;
-      srcTxt.textContent="Prices & balances: TonAPI";
-    }catch{ /* continue */ }
-
-    let tonUsdPrice = Number(rates?.TON?.prices?.USD ?? rates?.ton?.prices?.usd);
-    if(!tonUsdPrice || !isFinite(tonUsdPrice)){
-      const cg=await getJSON(COINGECKO_TON);
-      tonUsdPrice=Number(cg?.toncoin?.usd)||0;
-      srcTxt.textContent="CoinGecko TON price (fallback) + TonAPI balances";
+    async function fetchJSON(url, opts) {
+      const res = await fetch(url, opts);
+      if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+      return res.json();
     }
 
-    const tonVal = ton * (tonUsdPrice||0);
-    let jetVal=0;
-    const rows=[["TON", fmtTon(ton), tonUsdPrice?fmtUsd(tonVal):"—"]];
-
-    for(const row of list){
-      const p=Number(rates?.[row.master]?.prices?.USD ?? rates?.[row.master]?.prices?.usd);
-      const v=(p&&isFinite(p))?row.amt*p:0; jetVal+=v;
-      rows.push([row.sym, row.amt.toLocaleString(undefined,{maximumFractionDigits:6}), p?fmtUsd(v):"—"]);
+    // Primary: TonAPI Portfolio (includes jettons, gives total USD)
+    async function tryTonapiPortfolio(address) {
+      const url = `https://tonapi.io/v2/accounts/${address}/portfolio`;
+      const data = await fetchJSON(url);
+      const usd = data?.total_usd_amount ?? data?.total_amount_usd ?? null;
+      let ton = null;
+      try {
+        const acc = await fetchJSON(`https://tonapi.io/v2/accounts/${address}`);
+        if (acc?.balance != null) ton = acc.balance / 1e9;
+      } catch (_) {}
+      return { usd, ton, source: 'TonAPI /portfolio', badge: 'Full portfolio', when: Date.now() };
     }
 
-    const covered = rows.filter(r=>r[2]!=="—").length;
-    const totalTracked = rows.length;
+    // Fallback A: TON-only (TonAPI account + Coingecko for price)
+    async function tryTonOnlyTonapi(address) {
+      const acc = await fetchJSON(`https://tonapi.io/v2/accounts/${address}`);
+      const ton = (acc?.balance ?? 0) / 1e9;
+      const cg = await fetchJSON('https://api.coingecko.com/api/v3/simple/price?ids=the-open-network&vs_currencies=usd');
+      const tonUsd = cg?.['the-open-network']?.usd ?? 0;
+      const usd = ton * tonUsd;
+      return { usd, ton, source: 'TonAPI + Coingecko', badge: 'TON-only fallback', when: Date.now() };
+    }
 
-    tonBalEl.textContent = fmtTon(ton)+" TON";
-    tonPriceEl.textContent = tonUsdPrice?fmtUsd(tonUsdPrice):"—";
-    jetUsdEl.textContent = fmtUsd(jetVal);
-    covEl.textContent = `${covered}/${totalTracked} priced`;
+    // Fallback B: Toncenter + Coingecko
+    async function tryTonOnlyToncenter(address) {
+      const url = `https://toncenter.com/api/v2/getAddressInformation?address=${encodeURIComponent(address)}`;
+      const data = await fetchJSON(url);
+      const ton = (data?.result?.balance ?? 0) / 1e9;
+      const cg = await fetchJSON('https://api.coingecko.com/api/v3/simple/price?ids=the-open-network&vs_currencies=usd');
+      const tonUsd = cg?.['the-open-network']?.usd ?? 0;
+      const usd = ton * tonUsd;
+      return { usd, ton, source: 'Toncenter + Coingecko', badge: 'TON-only fallback', when: Date.now() };
+    }
 
-    treasuryUsd.textContent = fmtUsd(tonVal+jetVal);
-    updatedEl.textContent = nowLocal();
+    async function loadTreasury(address) {
+      // 60s cache
+      const cached = localStorage.getItem(cacheKey('treasury'));
+      if (cached) {
+        try {
+          const obj = JSON.parse(cached);
+          if (Date.now() - obj.when < 60_000) setUI(obj);
+        } catch(_) {}
+      }
+      // Try providers in order
+      const attempts = [tryTonapiPortfolio, tryTonOnlyTonapi, tryTonOnlyToncenter];
+      for (const fn of attempts) {
+        try {
+          const result = await fn(address);
+          setUI(result);
+          localStorage.setItem(cacheKey('treasury'), JSON.stringify(result));
+          return;
+        } catch (e) { console.warn('Provider failed:', fn.name, e); }
+      }
+      setUI({ usd: 0, ton: null, source: '—', badge: 'Unavailable', when: Date.now() });
+    }
 
-    holdingsEl.innerHTML="";
-    rows.forEach(r=>{
-      const li=document.createElement("li");
-      li.innerHTML=`<span>${r[0]}</span><span class="muted">${r[1]}</span><strong>${r[2]}</strong>`;
-      holdingsEl.appendChild(li);
-    });
+    async function loadSuggestions() {
+      const el = document.getElementById('suggestionsList');
+      if (!el) return;
+      try {
+        const res = await fetch('/api/suggestions');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const items = await res.json();
+        if (!Array.isArray(items) || items.length === 0) {
+          el.innerHTML = '<div class="text-slate-400">No suggestions yet. Be the first!</div>';
+          return;
+        }
+        el.innerHTML = '';
+        items.forEach((s) => {
+          const card = document.createElement('div');
+          card.className = 'rounded-2xl border border-white/10 p-4 bg-slate-950/40';
+          card.innerHTML = `
+            <div class="flex items-center justify-between">
+              <div class="font-semibold">${(s.token || '').toString().slice(0,80)}</div>
+              <div class="text-xs text-slate-400">${new Date(s.ts || Date.now()).toLocaleString()}</div>
+            </div>
+            <div class="mt-2 text-slate-300">${(s.reason || '').toString().slice(0,300)}</div>
+            <div class="mt-2 text-xs text-slate-500">${s.handle ? s.handle : ''} ${s.email ? '• ' + s.email : ''}</div>
+          `;
+          el.appendChild(card);
+        });
+      } catch (e) {
+        el.innerHTML = '<div class="text-amber-300">API unavailable. Suggestions will still be emailed on submit.</div>';
+      }
+    }
 
-    srcDot.className="dot ok";
-  }catch(e){
-    srcTxt.textContent="Failed to load"; srcDot.className="dot warn";
-    holdingsEl.innerHTML=`<li><span class="muted">Error</span><span>${e.message}</span></li>`;
-  }finally{ document.getElementById("refreshBal").disabled=false; }
-}
-document.getElementById("refreshBal").addEventListener("click", loadTreasury);
-loadTreasury();
+    function setupDAOForm() {
+      const form = document.getElementById('suggestForm');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fd = new FormData(form);
+        const payload = Object.fromEntries(fd.entries());
 
-/** ====== REWARDS DASHBOARD (similar to Burrito Rewards) ====== **/
-const rwAddrLink=document.getElementById("rwAddr"), rwStatus=document.getElementById("rwStatus"), rwTotal=document.getElementById("rwTotal"), rwCycles=document.getElementById("rwCycles"), rwRecipients=document.getElementById("rwRecipients"), rw24h=document.getElementById("rw24h"), rwList=document.getElementById("rwTxs");
-const rwInput=document.getElementById("rwInput"), rwSave=document.getElementById("rwSave");
-if(REWARDS_WALLET){ rwAddrLink.textContent=REWARDS_WALLET.slice(0,10)+"…"+REWARDS_WALLET.slice(-6); rwAddrLink.href=TONSCAN(REWARDS_WALLET); rwStatus.textContent="Active"; }
+        // API first
+        try {
+          const resp = await fetch(SUGGEST_POST_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!resp.ok) throw new Error('Bad response');
+          alert('Thanks! Your suggestion was recorded.');
+          form.reset();
+          loadSuggestions();
+          return;
+        } catch (_) {}
 
-rwSave.addEventListener("click", ()=>{
-  const v=rwInput.value.trim();
-  if(!v){alert("Paste a rewards wallet (EQ… / UQ…)");return;}
-  REWARDS_WALLET=v; localStorage.setItem("tonfi_rewards_wallet", v);
-  rwAddrLink.textContent=v.slice(0,10)+"…"+v.slice(-6); rwAddrLink.href=TONSCAN(v); rwStatus.textContent="Active";
-  loadRewards();
-});
+        // Fallback: mailto (never lose a suggestion)
+        const subject = encodeURIComponent('TonFi Token Suggestion');
+        const body = encodeURIComponent(`Token: ${payload.token}
+Reason: ${payload.reason}
+Telegram: ${payload.handle || '-'}
+Email: ${payload.email || '-'}`);
+        const mailto = `mailto:tonfi.dao+suggestions@example.com?subject=${subject}&body=${body}`;
+        try { window.location.href = mailto; } catch(_) {}
+        alert('API unavailable — opened your email app as a fallback.');
+      });
+    }
 
-async function loadRewards(){
-  document.getElementById("refreshRw").disabled=true;
-  rwList.innerHTML=`<li><span class="muted">${REWARDS_WALLET? "Loading payouts…" : "No rewards wallet set."}</span><span>—</span></li>`;
-  rwTotal.textContent="—"; rwCycles.textContent="—"; rwRecipients.textContent="—"; rw24h.textContent="—";
-  if(!REWARDS_WALLET){ document.getElementById("refreshRw").disabled=false; return; }
+    // Init
+    (function init() {
+      $('addrText').textContent = TREASURY_ADDRESS;
+      $('viewOnExplorer').href = `https://tonviewer.com/${encodeURIComponent(TREASURY_ADDRESS)}`;
+      $('year').textContent = new Date().getFullYear();
+      $('refreshBtn').addEventListener('click', () => loadTreasury(TREASURY_ADDRESS));
+      setupDAOForm();
+      // metadata
+      const f = document.getElementById('suggestForm');
+      f.querySelector('input[name="ua"]').value = navigator.userAgent;
+      f.querySelector('input[name="ref"]').value = document.referrer || location.href;
+      loadTreasury(TREASURY_ADDRESS);
+      loadSuggestions();
+    })();
+  </script>
 
-  try{
-    // pull recent transactions (paginate if needed)
-    const tx = await getJSON(`${TONAPI}/v2/blockchain/accounts/${REWARDS_WALLET}/transactions?limit=100`);
-    const items = tx?.transactions || tx?.items || [];
-    // consider outbound native TON only (transfers where this wallet is sender and value>0)
-    const outs = items.filter(t => t.in_msg?.source === REWARDS_WALLET && Number(t.in_msg?.value||0)===0 && t.out_msgs?.length)
-      .flatMap(t => t.out_msgs.map(o => ({time:(t.utime||t.now||Date.parse(t.created_at)/1000)||0, to:o.destination, amount:Number(o.value||0)/1e9, hash:t.hash||t.transaction_id?.hash||""})))
-      .filter(x=>x.amount>0);
+  <!-- ====== SERVERLESS API FILES (create these on Vercel) ======
+    Create a folder: /api
+    Add two files: /api/suggest.js and /api/suggestions.js
 
-    // totals
-    const total = outs.reduce((s,x)=>s+x.amount,0);
-    rwTotal.textContent = total.toLocaleString(undefined,{maximumFractionDigits:4})+" TON";
+    // /api/suggest.js
+    import { kv } from '@vercel/kv';
+    export default async function handler(req, res) {
+      if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+      try {
+        const { token, reason, handle, email, ua, ref } = req.body || {};
+        if (!token || !reason) return res.status(400).json({ error: 'token and reason required' });
+        const item = { token, reason, handle, email, ua, ref, ts: Date.now() };
+        await kv.lpush('tonfi:suggestions', JSON.stringify(item));
+        await kv.ltrim('tonfi:suggestions', 0, 199); // keep latest 200
+        return res.status(200).json({ ok: true });
+      } catch (e) {
+        return res.status(500).json({ error: 'failed to save' });
+      }
+    }
 
-    // cycles (roughly group by hour)
-    const byCycle = new Map();
-    outs.forEach(x=>{
-      const hour = Math.floor(x.time/3600);
-      byCycle.set(hour, (byCycle.get(hour)||0)+x.amount);
-    });
-    rwCycles.textContent = byCycle.size.toString();
+    // /api/suggestions.js
+    import { kv } from '@vercel/kv';
+    export default async function handler(_req, res) {
+      try {
+        const raw = await kv.lrange('tonfi:suggestions', 0, 49);
+        const items = raw.map((s) => { try { return JSON.parse(s); } catch { return null; } }).filter(Boolean);
+        return res.status(200).json(items);
+      } catch (e) {
+        return res.status(200).json([]);
+      }
+    }
 
-    // unique recipients
-    const uniq = new Set(outs.map(x=>x.to));
-    rwRecipients.textContent = uniq.size.toString();
-
-    // last 24h
-    const now = Math.floor(Date.now()/1000);
-    const last24 = outs.filter(x=> now - x.time <= 86400).reduce((s,x)=>s+x.amount,0);
-    rw24h.textContent = last24.toLocaleString(undefined,{maximumFractionDigits:4})+" TON";
-
-    // list latest
-    rwList.innerHTML="";
-    outs.slice(0,10).forEach(x=>{
-      const d=new Date(x.time*1000).toLocaleString(undefined,{hour12:false});
-      const li=document.createElement("li");
-      const link=`https://tonviewer.com/transaction/${x.hash}`;
-      li.innerHTML=`<span class="muted">${d}</span><span>${x.amount.toLocaleString(undefined,{maximumFractionDigits:4})} TON</span><a target="_blank" rel="noopener" href="${link}">View</a>`;
-      rwList.appendChild(li);
-    });
-  }catch(e){
-    rwList.innerHTML=`<li><span class="muted">Error</span><span>${e.message}</span></li>`;
-  }finally{
-    document.getElementById("refreshRw").disabled=false;
-  }
-}
-document.getElementById("refreshRw").addEventListener("click", loadRewards);
-if(REWARDS_WALLET) loadRewards();
-</script>
+    === Setup Vercel KV ===
+    - In Vercel project ➝ Storage ➝ Add Vercel KV (free tier OK)
+    - Vercel will add env vars (KV_REST_API_URL, KV_REST_API_TOKEN, etc.)
+    - Add dep: `npm i @vercel/kv`
+    - Deploy; the site will use /api endpoints automatically.
+  ============================================================= -->
 </body>
 </html>
