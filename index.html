@@ -1,222 +1,406 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>TonFi</title>
-<meta name="description" content="TonFi on TON. Simple tokenomics. Clear treasury.">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#0b1220;
-    --card:#0f1a2e;
-    --line:#1c2b45;
-    --text:#e9f1fb;
-    --muted:#a3bdd6;
-    --accent:#0BA6FF;
-    --ok:#2ecc71; --warn:#f1c40f; --bad:#ff6b6b;
-    --r:14px;
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TonFi — Passive Income on TON</title>
+  <meta name="description" content="TonFi is a community token on TON combining meme culture with on-chain cashflows: LP fee reserve, buyback & burn, and holder rewards."/>
+  <meta name="theme-color" content="#0E1224" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="TonFi — Passive Income on TON">
+  <meta property="og:description" content="Earn passive income on TON. Treasure reserve → LP fees → buyback & burn → holder rewards.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tonfi.meme/">
+  <meta property="og:image" content="">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TonFi — Passive Income on TON">
+  <meta name="twitter:description" content="LP fees and buybacks powering sustainable value for holders.">
+  <meta name="twitter:image" content="">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"TonFi",
+    "url":"https://tonfi.meme/",
+    "logo":"",
+    "sameAs":["https://t.me/tonfi","https://x.com/"]
   }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0; background:var(--bg); color:var(--text);
-    font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-    line-height:1.55;
-  }
-  .wrap{max-width:980px;margin:0 auto;padding:20px}
-  header{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)}
-  header .brand{display:flex;align-items:center;gap:10px}
-  header img{width:40px;height:40px;border-radius:50%}
-  header h1{margin:0;font-size:18px;font-weight:700;letter-spacing:.2px}
-  nav{display:flex;gap:8px;flex-wrap:wrap}
-  .btn{appearance:none;border:1px solid var(--line);background:#0e182b;color:var(--text);padding:8px 12px;border-radius:999px;font-weight:600;text-decoration:none}
-  .btn.primary{background:#112540;border-color:#254d75}
-  main{padding:18px 0}
-  .section{border:1px solid var(--line);border-radius:var(--r);background:var(--card);padding:18px;margin:14px 0}
-  .title{margin:0 0 6px;font-size:18px;font-weight:700}
-  .muted{color:var(--muted)}
-  .kpi{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .tile{border:1px solid var(--line);border-radius:12px;padding:14px;background:#0e182b}
-  .label{color:#cfe3f8;font-size:13px}
-  .value{font-size:28px;font-weight:700}
-  .status{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#0e182b;font-size:12px}
-  .ok{color:var(--ok)} .warn{color:var(--warn)} .bad{color:var(--bad)}
-  ul,ol{padding-left:18px;margin:8px 0 0}
-  footer{border-top:1px solid var(--line);margin-top:18px;padding:16px 0;color:#a7bfd6;font-size:14px}
-  /* Responsive */
-  @media (max-width:900px){ .kpi{grid-template-columns:1fr} }
-</style>
+  </script>
+
+  <style>
+    :root{
+      --bg:#0A0F1E; --bg2:#0E142A; --panel:#0f162e; --text:#EAF3FF; --muted:#9FB0C8;
+      --line:rgba(255,255,255,.12); --brand:#15A9FF; --brand2:#3FE7FF;
+      --radius:20px; --shadow:0 14px 40px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial;
+      background:
+        radial-gradient(1200px 900px at 90% -10%, #163a7a33, transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    .container{max-width:1120px; margin:0 auto; padding:0 20px}
+    a{color:var(--brand2); text-decoration:none}
+    a:hover{opacity:.9}
+    .visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+
+    /* Top bar */
+    .nav{position:sticky; top:0; z-index:30; backdrop-filter:saturate(140%) blur(12px);
+      background:linear-gradient(180deg,rgba(10,15,30,.85),rgba(10,15,30,.55)); border-bottom:1px solid var(--line)}
+    .nav-inner{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; align-items:center; gap:12px}
+    .brand-mark{width:40px;height:40px;border-radius:12px; display:grid;place-items:center;
+      background: radial-gradient(60% 60% at 30% 30%, var(--brand2), var(--brand));
+      box-shadow: var(--shadow);
+    }
+    .brand h1{font-size:18px; letter-spacing:.4px; margin:0}
+    .nav-cta{display:flex; gap:10px; align-items:center}
+    .btn{padding:10px 14px; border-radius:12px; border:1px solid var(--line); color:var(--text); background:transparent; transition:transform .05s ease}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand2)); color:#05202B; border:none; font-weight:700}
+    .btn.ghost{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));}
+
+    /* Hero */
+    header.hero{position:relative}
+    .fall{position:absolute; inset:0; pointer-events:none; overflow:hidden}
+    .ton{position:absolute; opacity:.16; filter:drop-shadow(0 6px 10px rgba(21,169,255,.25)); animation:fall linear infinite}
+    @keyframes fall{from{transform:translateY(-10vh)} to{transform:translateY(110vh)}}
+    .hero-inner{padding:80px 0 40px; display:grid; gap:22px}
+    .eyebrow{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--line);
+      border-radius:999px; font-size:12px; color:var(--muted); background:rgba(255,255,255,.05)}
+    .hero h2{font-size:42px; line-height:1.1; margin:6px 0 10px}
+    .hero p{color:var(--muted); max-width:780px}
+    .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:8px}
+
+    /* Sections */
+    main section{padding:28px 0}
+    .grid{display:grid; gap:16px}
+    @media(min-width:900px){ .grid.cols-3{grid-template-columns:repeat(3,1fr)} .grid.cols-2{grid-template-columns:repeat(2,1fr)}}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow)
+    }
+    .card h3{margin:0 0 8px; font-size:18px}
+    .muted{color:var(--muted)}
+    .kpi{font-size:30px; font-weight:800; letter-spacing:.2px;
+      background:linear-gradient(90deg,#fff,var(--brand2)); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .list{margin:0; padding-left:18px}
+
+    /* Section headers */
+    .section-title{display:flex; align-items:center; gap:10px; margin:8px 0 12px}
+    .dot{width:8px;height:8px;border-radius:50%; background:var(--brand2); box-shadow:0 0 18px var(--brand2)}
+
+    /* Tables */
+    table{font-size:14px}
+    th, td{padding:6px 0; border-bottom:1px dashed var(--line)}
+    th{text-align:left; color:#cfe2ff}
+
+    /* FAQ */
+    details{background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:16px; padding:14px 16px}
+    details+details{margin-top:10px}
+    summary{cursor:pointer; font-weight:600}
+    summary::-webkit-details-marker{display:none}
+
+    /* Footer */
+    footer{border-top:1px solid var(--line); margin-top:36px; padding:26px 0 40px; color:var(--muted)}
+    .social{display:flex; gap:10px}
+    .social a{display:grid; place-items:center; width:40px; height:40px; border-radius:12px; background:rgba(255,255,255,.06); border:1px solid var(--line)}
+
+    /* Small helpers */
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace}
+    .right{text-align:right}
+  </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
+  <!-- Navigation -->
+  <nav class="nav" aria-label="Primary">
+    <div class="container nav-inner">
       <div class="brand">
-        <img src="tonfi-logo.png" alt="TonFi logo">
-        <h1>TonFi</h1>
+        <div class="brand-mark" aria-hidden="true">
+          <!-- Inline TON-like glyph -->
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#fff" d="M12 2l8.66 5v10L12 22l-8.66-5V7L12 2z"/></svg>
+        </div>
+        <h1 aria-label="TonFi">TonFi</h1>
       </div>
-      <nav>
-        <a class="btn" href="#treasury">Treasury</a>
-        <a class="btn" href="#tokenomics">Tokenomics</a>
-        <a class="btn primary" href="#buy">Buy</a>
-      </nav>
-    </header>
+      <div class="nav-cta">
+        <a class="btn ghost" href="https://t.me/tonfi" target="_blank" rel="noopener">Telegram</a>
+        <a class="btn ghost" href="https://x.com/" target="_blank" rel="noopener">X (Twitter)</a>
+        <a class="btn primary" href="#" target="_blank" rel="noopener">Buy on DEX</a>
+      </div>
+    </div>
+  </nav>
 
-    <main>
-      <!-- HERO: ultra simple copy -->
-      <section class="section" id="about">
-        <h2 class="title">Simple. Transparent. On TON.</h2>
-        <p class="muted">
-          TonFi uses trade taxes to support liquidity on TON, buy back and burn TONFI, and reward holders.
-        </p>
-      </section>
+  <!-- Hero -->
+  <header class="hero">
+    <div class="fall" id="fall" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <span class="eyebrow"><span style="width:8px;height:8px;border-radius:50%;background:var(--brand2)"></span> Live on TON</span>
+      <h2>Passive Income on TON with a <span style="color:var(--brand2)">Sustainable Flywheel</span></h2>
+      <p>TonFi channels a portion of every trade into a curated treasure reserve that seeks LP fees across the TON ecosystem. Fees help fund recurring <strong>buyback &amp; burn</strong> and <strong>holder rewards</strong> for long-term sustainability.</p>
+      <div class="cta">
+        <a class="btn primary" href="#" target="_blank" rel="noopener">Launch App</a>
+        <a class="btn" href="#" target="_blank" rel="noopener">View Contract</a>
+      </div>
+    </div>
+  </header>
 
-      <!-- TREASURY (USD only) -->
-      <section class="section" id="treasury">
-        <h2 class="title">Treasury</h2>
-        <p class="muted">Public wallet and live total value in USD.</p>
+  <main class="container" id="main">
+    <!-- Value Propositions -->
+    <section aria-labelledby="value">
+      <div class="section-title"><span class="dot"></span><h3 id="value" style="margin:0">Why TonFi</h3></div>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>Treasure Reserve</h3>
+          <p class="muted">Programmatic allocations to TON liquidity positions designed to earn fees and grow book value over time.</p>
+        </div>
+        <div class="card">
+          <h3>Buyback &amp; Burn</h3>
+          <p class="muted">Reserve yield drives scheduled buybacks; purchased tokens are burned to reduce supply.</p>
+        </div>
+        <div class="card">
+          <h3>Holder Rewards</h3>
+          <p class="muted">A share of trading fees routes to holders as passive income, aligning community and protocol.</p>
+        </div>
+      </div>
+    </section>
 
-        <div class="tile" style="margin-bottom:10px">
-          <div class="label">Treasury Wallet</div>
-          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-            <code id="wallet" style="word-break:break-all">UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh</code>
-            <button id="copy" class="btn">Copy</button>
-            <a class="btn" target="_blank" rel="noopener" href="https://tonviewer.com/UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh">Tonviewer</a>
-            <a class="btn" target="_blank" rel="noopener" href="https://tonscan.org/address/UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh">Tonscan</a>
+    <!-- Tokenomics -->
+    <section aria-labelledby="tokenomics">
+      <div class="section-title"><span class="dot"></span><h3 id="tokenomics" style="margin:0">Tokenomics</h3></div>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>Buy Tax</h3>
+          <div class="kpi">5%</div>
+          <p class="muted">3% Liquidity &amp; Buyback • 2% Holders</p>
+        </div>
+        <div class="card">
+          <h3>Sell Tax</h3>
+          <div class="kpi">7%</div>
+          <p class="muted">5% Liquidity &amp; Buyback • 2% Holders</p>
+        </div>
+        <div class="card">
+          <h3>Supply</h3>
+          <div class="kpi mono">TBA</div>
+          <p class="muted">Fair, transparent, and auditable on-chain.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reserve Portfolio (Live) -->
+    <section aria-labelledby="reserve" id="reserve-portfolio">
+      <div class="section-title"><span class="dot"></span>
+        <h3 id="reserve" style="margin:0">Reserve Portfolio (Live)</h3>
+      </div>
+      <div class="card" id="reserve-card">
+        <p class="muted" id="reserve-status">Loading reserve data from TON…</p>
+
+        <div class="grid cols-2" style="margin-top:10px">
+          <!-- Balances -->
+          <div>
+            <h4 style="margin:0 0 8px">Balances</h4>
+            <div id="ton-balance" class="muted">—</div>
+            <table id="jettons-table" style="width:100%; margin-top:10px; border-collapse:collapse">
+              <thead><tr>
+                <th>Token</th>
+                <th class="right">Balance</th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <!-- LP Positions -->
+          <div>
+            <h4 style="margin:0 0 8px">LP Positions (DeDust)</h4>
+            <table id="lp-table" style="width:100%; border-collapse:collapse">
+              <thead><tr>
+                <th>Pool</th>
+                <th class="right">Share</th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
           </div>
         </div>
 
-        <div class="kpi">
-          <div class="tile">
-            <div class="label">Total Holdings (USD)</div>
-            <div id="total" class="value">Loading…</div>
-            <div id="note" class="muted" style="margin-top:6px">Fetching totals…</div>
-          </div>
-          <div class="tile">
-            <div class="label">Status</div>
-            <div id="status" class="status">Initializing</div>
-            <p class="muted" style="margin:8px 0 0">If main source is busy, we show a TON-only estimate.</p>
-          </div>
+        <small class="muted">Data refreshes on page load from public APIs.</small>
+      </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section aria-labelledby="roadmap">
+      <div class="section-title"><span class="dot"></span><h3 id="roadmap" style="margin:0">Roadmap</h3></div>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Phase 1 — Launch</h3>
+          <ul class="list muted">
+            <li>Website, socials, and community ignition</li>
+            <li>Initial LP &amp; DEX listing on TON</li>
+            <li>First reserve allocations</li>
+          </ul>
         </div>
-      </section>
+        <div class="card">
+          <h3>Phase 2 — Flywheel</h3>
+          <ul class="list muted">
+            <li>LP fee recycling → buyback &amp; burn cadence</li>
+            <li>Automated holder rewards</li>
+            <li>Listings &amp; ecosystem partnerships</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-      <!-- TOKENOMICS: short, plain -->
-      <section class="section" id="tokenomics">
-        <h2 class="title">Tokenomics</h2>
-        <ul class="muted">
-          <li><b>Buy Tax: 5%</b> → 3% Liquidity · 2% to holders</li>
-          <li><b>Sell Tax: 7%</b> → 5% Liquidity · 2% to holders</li>
-          <li>LP fees fund <b>buyback & burn</b>.</li>
-          <li>Fixed supply. Burns reduce supply over time.</li>
-        </ul>
-      </section>
+    <!-- FAQ -->
+    <section aria-labelledby="faq">
+      <div class="section-title"><span class="dot"></span><h3 id="faq" style="margin:0">FAQ</h3></div>
+      <details>
+        <summary>How do the taxes create value?</summary>
+        <p class="muted">Buy/sell allocations feed the reserve and rewards. Reserve positions target LP fees; fees fund buybacks and periodic burns, reinforcing token scarcity while sharing value with holders.</p>
+      </details>
+      <details>
+        <summary>Where can I see reserve wallets?</summary>
+        <p class="muted">The live reserve card above shows on-chain balances for the treasury address. We’ll publish additional dashboards post-launch.</p>
+      </details>
+      <details>
+        <summary>Is TonFi just a meme?</summary>
+        <p class="muted">It’s meme-forward for culture and growth, but the mechanics focus on repeatable on-chain cashflows.</p>
+      </details>
+    </section>
+  </main>
 
-      <!-- HOW TO BUY: three steps -->
-      <section class="section" id="buy">
-        <h2 class="title">How to Buy</h2>
-        <ol class="muted">
-          <li>Get a TON wallet (Tonkeeper, MyTonWallet).</li>
-          <li>Go to a DEX (DeDust or Ston.fi).</li>
-          <li>Search TONFI by contract (after launch) and swap.</li>
-        </ol>
-      </section>
-    </main>
+  <footer role="contentinfo">
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+      <small>© <span id="year"></span> TonFi • Built on TON</small>
+      <div class="social" aria-label="Social links">
+        <a href="https://t.me/tonfi" target="_blank" aria-label="Telegram" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.04 15.03l-.37 5.2c.53 0 .76-.23 1.03-.5l2.48-2.38 5.15 3.77c.94.52 1.61.25 1.87-.87l3.39-15.9c.3-1.38-.5-1.92-1.41-1.58L1.55 9.67c-1.35.53-1.33 1.3-.23 1.64l5.22 1.63 12.16-7.67c.57-.37 1.09-.17.66.2L9.04 15.03z" fill="currentColor"/></svg>
+        </a>
+        <a href="https://x.com/" target="_blank" aria-label="X (Twitter)" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18.244 2H21l-6.47 7.39L22.5 22h-6.9l-4.46-6.13L5.86 22H3.1l6.89-7.87L1.5 2h7.02l4.02 5.57L18.244 2Zm-1.207 18h1.951L7.05 4h-2L17.037 20Z" fill="currentColor"/></svg>
+        </a>
+        <a href="#" target="_blank" aria-label="Contract" rel="noopener" title="View Contract">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 2h9l3 3v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 2v16h10V6h-3V4H6Zm2 4h6v2H8V8Zm0 4h6v2H8v-2Zm0 4h4v2H8v-2Z" fill="currentColor"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
 
-    <footer>
-      © <span id="year"></span> TonFi • Built on TON
-    </footer>
-  </div>
+  <script>
+    // ===== UI niceties =====
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-<script>
-  // Utilities
-  const $ = (q)=>document.querySelector(q);
-  const fmtUSD = (n)=> {
-    try { return new Intl.NumberFormat(undefined,{style:'currency',currency:'USD',maximumFractionDigits:2}).format(n); }
-    catch { return '$' + (Math.round(n*100)/100); }
-  };
+    // Subtle animated TON marks (SVG)
+    (function(){
+      const fall = document.getElementById('fall');
+      const N = 26;
+      for (let i=0;i<N;i++){
+        const el = document.createElement('div');
+        el.className = 'ton';
+        const size = 14 + Math.random()*12;
+        el.style.left = (Math.random()*100)+'vw';
+        el.style.animationDuration = (7 + Math.random()*10)+'s';
+        el.style.animationDelay = (Math.random()*-12)+'s';
+        el.style.top = (-10 - Math.random()*90) + 'vh';
+        el.innerHTML = `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" style="display:block">
+          <defs><linearGradient id="g${i}" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#15A9FF"/><stop offset="100%" stop-color="#3FE7FF"/></linearGradient></defs>
+          <path d="M12 2l8.66 5v10L12 22l-8.66-5V7L12 2z" fill="url(#g${i})"/>
+        </svg>`;
+        fall.appendChild(el);
+      }
+    })();
 
-  // Footer year
-  $('#year').textContent = new Date().getFullYear();
+    // ===== Reserve Portfolio (Live) =====
+    const RESERVE = "UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh"; // provided address
+    const TONAPI_BASE = "https://tonapi.io";
+    const TONAPI_KEY = ""; // optional: paste your TonAPI key if you have one, else leave empty
+    const DEDUST_API = "https://api.dedust.io";
 
-  // Copy wallet
-  $('#copy').addEventListener('click', async ()=>{
-    const text = $('#wallet').textContent.trim();
-    try { await navigator.clipboard.writeText(text); const b=$('#copy'); b.textContent='Copied ✓'; setTimeout(()=>b.textContent='Copy',1200); } catch {}
-  });
+    const $ = sel => document.querySelector(sel);
 
-  // ---- Treasury (USD total only) ----
-  const WALLET = 'UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh';
-  const totalEl = $('#total');
-  const noteEl  = $('#note');
-  const statusEl= $('#status');
-
-  function setStatus(text, cls='ok'){
-    statusEl.textContent = text;
-    statusEl.classList.remove('ok','warn','bad');
-    statusEl.classList.add(cls);
-  }
-
-  async function getJSON(url){
-    const r = await fetch(url,{headers:{accept:'application/json'}});
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    return r.json();
-  }
-
-  async function mainSource(){
-    // TonAPI portfolio: TON + jettons (USD-priced)
-    const [acc, jets, rates] = await Promise.all([
-      getJSON(`https://tonapi.io/v2/accounts/${WALLET}`),
-      getJSON(`https://tonapi.io/v2/accounts/${WALLET}/jettons?currencies=usd`),
-      getJSON('https://tonapi.io/v2/rates?tokens=ton&currencies=usd')
-    ]);
-
-    const ton = Number(acc?.balance||0)/1e9;
-    const tonUsd = Number(rates?.rates?.TON?.prices?.USD ?? rates?.rates?.ton?.prices?.usd ?? 0);
-    let total = tonUsd>0 ? ton*tonUsd : 0;
-
-    const items = jets?.balances || jets?.jettons || [];
-    for(const it of items){
-      const price = Number(it?.price?.prices?.USD ?? it?.price?.usd ?? 0);
-      const dec = Number(it?.jetton?.decimals ?? 9);
-      const balRaw = Number(it?.balance||0);
-      if(price>0 && balRaw>0) total += (balRaw/(10**dec))*price;
+    async function fetchJSON(url, opts={}) {
+      const headers = Object.assign(
+        { "accept": "application/json" },
+        (TONAPI_KEY && url.startsWith(TONAPI_BASE)) ? { "Authorization": `Bearer ${TONAPI_KEY}` } : {}
+      );
+      const res = await fetch(url, { ...opts, headers });
+      if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+      return res.json();
     }
-    if(!(total>0)) throw new Error('No total');
-    return { total, source:'TonAPI' };
-  }
 
-  async function fallbackSource(){
-    // TON-only estimate via TonAPI balance + USD rate
-    const [acc, rates] = await Promise.all([
-      getJSON(`https://tonapi.io/v2/accounts/${WALLET}`),
-      getJSON('https://tonapi.io/v2/rates?tokens=ton&currencies=usd')
-    ]);
-    const ton = Number(acc?.balance||0)/1e9;
-    const tonUsd = Number(rates?.rates?.TON?.prices?.USD ?? rates?.rates?.ton?.prices?.usd ?? 0);
-    const total = ton*tonUsd;
-    if(!(total>0)) throw new Error('No TON-only total');
-    return { total, source:'TON-only' };
-  }
-
-  (async function load(){
-    try{
-      setStatus('Contacting source…','warn');
-      let data;
-      try { data = await mainSource(); }
-      catch { data = await fallbackSource(); }
-
-      totalEl.textContent = fmtUSD(data.total);
-      noteEl.textContent  = data.source === 'TonAPI'
-        ? 'Includes tokens with available USD prices.'
-        : 'Fallback estimate from native TON only.';
-      setStatus(data.source==='TonAPI' ? 'Live' : 'Fallback', data.source==='TonAPI' ? 'ok' : 'warn');
-    }catch(e){
-      totalEl.textContent = 'Unavailable';
-      noteEl.textContent  = 'Open Tonviewer/Tonscan via the wallet links above.';
-      setStatus('Offline','bad');
+    function formatAmount(n, d=4) {
+      const num = Number(n);
+      if (!isFinite(num)) return "0";
+      return num.toLocaleString(undefined, { maximumFractionDigits: d });
     }
-  })();
-</script>
+
+    async function loadReserve() {
+      const status = $("#reserve-status");
+      try {
+        // 1) TON balance (nanotons → TON)
+        const acc = await fetchJSON(`${TONAPI_BASE}/v2/accounts/${RESERVE}`);
+        const ton = (acc?.balance || 0) / 1e9;
+        $("#ton-balance").textContent = `TON: ${formatAmount(ton, 4)} TON`;
+
+        // 2) Jettons (tokens) held by the address
+        const jets = await fetchJSON(`${TONAPI_BASE}/v2/accounts/${RESERVE}/jettons`);
+        const jtBody = $("#jettons-table tbody");
+        jtBody.innerHTML = "";
+        (jets?.balances || []).forEach(j => {
+          const meta = j.jetton?.metadata || {};
+          const sym = meta.symbol || meta.ticker || "JETTON";
+          const decimals = Number(meta.decimals || 9);
+          const bal = Number(j.balance || 0) / Math.pow(10, decimals);
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${sym}</td>
+            <td class="right">${formatAmount(bal)}</td>
+          `;
+          jtBody.appendChild(tr);
+        });
+        if ((jets?.balances || []).length === 0) {
+          jtBody.innerHTML = `<tr><td colspan="2" class="muted">No jettons detected</td></tr>`;
+        }
+
+        // 3) LP positions on DeDust
+        const dd = await fetchJSON(`${DEDUST_API}/v2/accounts/${RESERVE}/assets`);
+        const lpBody = $("#lp-table tbody");
+        lpBody.innerHTML = "";
+
+        (dd?.items || []).forEach(it => {
+          const isLP = it.type === "lp_account" || it.type === "lp_token" || it.kind === "lp";
+          if (isLP) {
+            const poolName = it.pool?.symbol || it.pool?.name || it.pool_address || it.symbol || "Pool";
+            const amount = it.amount ?? it.balance ?? 0;
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${poolName}</td>
+              <td class="right">${formatAmount(amount)}</td>
+            `;
+            lpBody.appendChild(tr);
+          }
+        });
+        if (!lpBody.children.length) {
+          lpBody.innerHTML = `<tr><td colspan="2" class="muted">No LP positions found on DeDust</td></tr>`;
+        }
+
+        status.textContent = "Live on-chain data fetched.";
+      } catch (e) {
+        console.error(e);
+        $("#reserve-status").textContent = "Could not load reserve data (public API error).";
+      }
+    }
+
+    // Init
+    loadReserve();
+  </script>
 </body>
 </html>
