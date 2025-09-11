@@ -1,173 +1,209 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TonFi — Liquidity-Backed Passive Income on TON</title>
-  <meta name="description" content="TonFi is a liquidity-backed, passive-income token on the TON blockchain. 5/7 tax: 3/5 to provide liquidity (buyback & burn), 2/2 to holders." />
-  <meta property="og:title" content="TonFi — Liquidity-Backed Passive Income on TON" />
-  <meta property="og:description" content="5/7 tax model: LP fees fund buyback & burn; holders earn passive income." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="tonfi-logo.png" />
-  <meta name="theme-color" content="#0098EA" />
-
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --bg:#070a12;
-      --fg:#eaf6ff;
-      --muted:#98b7cc;
-      --primary:#0098EA;
-      --card:#0c1320;
-      --line:#132033;
-      --good:#2ecc71;
-      --warn:#f1c40f;
-      --bad:#ff6b6b;
-      --shadow:0 10px 30px rgba(0,0,0,.35);
-      --radius:18px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;background:var(--bg);color:var(--fg);
-      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-    }
-    a{color:var(--primary);text-decoration:none}
-    img{max-width:100%;display:block}
-    .container{max-width:1120px;margin:0 auto;padding:24px}
-    header{position:sticky;top:0;z-index:10;background:rgba(7,10,18,.85);border-bottom:1px solid var(--line)}
-    .nav{display:flex;align-items:center;justify-content:space-between}
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand img{width:40px;height:40px;border-radius:50%}
-    .brand h1{font-size:18px;margin:0;font-weight:800}
-    .actions{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{border:1px solid var(--line);background:#0a1320;color:var(--fg);
-      padding:8px 14px;border-radius:999px;font-weight:600;cursor:pointer}
-    .btn.primary{background:#0f2b44;border-color:#1f4570}
-    .hero{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:36px 0}
-    .hero-card{background:#0e1727;border:1px solid var(--line);border-radius:var(--radius);padding:24px}
-    .tag{font-size:12px;color:#bfe6ff;background:rgba(0,152,234,.1);
-      border:1px solid rgba(0,152,234,.25);padding:4px 10px;border-radius:999px}
-    .hero h2{font-size:28px;margin:14px 0 8px}
-    .lead{color:#cfe9ff}
-    .grid{display:grid;gap:16px}
-    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
-    .card h3{margin:0 0 8px;font-size:18px}
-    .muted{color:var(--muted)}
-    .value{font-size:24px;font-weight:700}
-    .pill{display:inline-block;padding:4px 8px;border-radius:999px;border:1px solid var(--line);font-size:12px}
-    footer{border-top:1px solid var(--line);margin-top:24px;padding:16px 0;color:#a9c7da;font-size:14px}
-    @media(max-width:800px){.hero{grid-template-columns:1fr}}
-    .rain{position:fixed;inset:0;pointer-events:none;opacity:.08}
-    .drop{position:absolute;width:12px;height:12px;background:var(--primary);
-      clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
-      animation:fall linear infinite}
-    @keyframes fall{0%{transform:translateY(-20%)}100%{transform:translateY(120%)}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TonFi — Liquidity-Backed Passive Income on TON</title>
+<meta name="description" content="TonFi on TON. Liquidity-backed, deflationary, passive income for holders.">
+<meta name="theme-color" content="#0A1220">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A1220; --bg-2:#0E1729; --card:#0F1B30; --line:#1b2d4a;
+    --fg:#E8F3FF; --muted:#9bb8d2; --brand:#0BA6FF; --accent:#76D1FF;
+    --radius:22px; --r:14px; --shadow:0 10px 40px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:
+      radial-gradient(900px 650px at 85% -10%, rgba(11,166,255,.10), transparent 60%),
+      radial-gradient(700px 550px at -10% 20%, rgba(11,166,255,.08), transparent 55%),
+      var(--bg);
+    color:var(--fg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.55}
+  a{color:var(--accent);text-decoration:none}
+  .container{max-width:1120px;margin:0 auto;padding:22px}
+  /* Header */
+  header{position:sticky;top:0;z-index:20;background:linear-gradient(to bottom, rgba(10,18,32,.86), rgba(10,18,32,.60));backdrop-filter:blur(10px) saturate(130%);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand img{width:44px;height:44px;border-radius:50%;box-shadow:0 0 0 2px rgba(11,166,255,.28)}
+  .brand h1{margin:0;font-size:18px;font-weight:800;letter-spacing:.2px}
+  .actions{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{appearance:none;border:1px solid var(--line);background:linear-gradient(180deg,#12233d,#0F1B30);color:var(--fg);
+       padding:10px 14px;border-radius:999px;font-weight:600;cursor:pointer;transition:.2s transform,.2s border-color,.2s box-shadow}
+  .btn:hover{transform:translateY(-1px);border-color:#27486e;box-shadow:var(--shadow)}
+  .btn.primary{background:linear-gradient(180deg,#123454,#0E223A);border-color:#285a86}
+  .btn.disabled{opacity:.5;pointer-events:none}
+  /* Hero */
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center;padding:34px 0}
+  .card{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);padding:22px}
+  .hero-card{background:linear-gradient(180deg,#0f1a2e,#0b1627)}
+  .tag{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid rgba(118,209,255,.25);border-radius:999px;
+       background:linear-gradient(180deg,rgba(118,209,255,.10),rgba(118,209,255,.04));color:#cfe9ff;font-size:12px}
+  h2{font-size:36px;margin:12px 0 8px;letter-spacing:.2px}
+  .lead{color:#d6ecff}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+  /* Feature row */
+  .grid{display:grid;gap:16px}
+  .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+  .tile{border:1px solid var(--line);border-radius:18px;padding:16px;background:linear-gradient(180deg,#101d33,#0c192b)}
+  .muted{color:var(--muted)} .knum{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:700}
+  /* Sections */
+  section{margin:20px 0}
+  .title{margin:0 0 8px;font-size:18px;font-weight:700}
+  ul{padding-left:18px;margin:8px 0 0}
+  ol{padding-left:18px;margin:8px 0 0}
+  /* Footer */
+  footer{border-top:1px solid var(--line);margin-top:34px;padding:24px 0;color:#a9c7da;font-size:14px}
+  /* Responsive */
+  @media (max-width:980px){.hero{grid-template-columns:1fr}.grid.cols-3{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-  <div class="rain" id="rain"></div>
+<header>
+  <div class="container nav">
+    <div class="brand">
+      <img src="tonfi-logo.png" alt="TonFi logo">
+      <h1>TonFi</h1>
+    </div>
+    <nav class="actions">
+      <a class="btn" href="#about">About</a>
+      <a class="btn" href="#tokenomics">Tokenomics</a>
+      <a class="btn" href="#dao">DAO</a>
+      <a class="btn primary" href="#buy">How to Buy</a>
+    </nav>
+  </div>
+</header>
 
-  <header>
-    <div class="container nav">
-      <div class="brand">
-        <img src="tonfi-logo.png" alt="TonFi logo"/>
-        <h1>TonFi</h1>
-      </div>
-      <div class="actions">
-        <a class="btn" href="#treasury">Treasury</a>
-        <a class="btn" href="#tokenomics">Tokenomics</a>
-        <a class="btn" href="#dao">DAO</a>
-        <a class="btn primary" href="#buy">Buy</a>
+<main class="container">
+  <!-- HERO -->
+  <section class="hero" id="about">
+    <div class="card hero-card">
+      <span class="tag">Liquidity-Backed • Passive Income • Deflationary</span>
+      <h2>Build TON liquidity. Reward holders. Burn supply.</h2>
+      <p class="lead">TonFi channels trade taxes to provide liquidity in top TON pools. LP fees fuel ongoing buybacks and burns. Holders earn passive income.</p>
+      <div class="cta">
+        <a class="btn primary disabled" title="Treasury will appear after we add the wallet">Treasury (coming soon)</a>
+        <a class="btn" href="#tokenomics">See Tokenomics</a>
+        <a class="btn" href="#dao">Submit Proposal</a>
       </div>
     </div>
-  </header>
 
-  <main class="container">
-    <section class="hero">
-      <div class="hero-card">
-        <span class="tag">Liquidity • Income • Burn</span>
-        <h2>Grow TON liquidity. Reward holders.</h2>
-        <p class="lead">TonFi uses trade taxes to add liquidity, buy back and burn TONFI, and pay holders passive income.</p>
-        <div class="grid cols-3" style="margin-top:12px">
-          <div class="card"><div class="muted">Buy Tax</div><div class="value">5%</div></div>
-          <div class="card"><div class="muted">Sell Tax</div><div class="value">7%</div></div>
-          <div class="card"><div class="muted">Mechanics</div><div class="pill">LP Fees → Burn</div></div>
+    <div class="card">
+      <h3 class="title">What TonFi Does</h3>
+      <div class="grid cols-3" style="margin-top:6px">
+        <div class="tile">
+          <div class="muted">Liquidity Engine</div>
+          <div class="knum" style="font-size:22px;margin-top:4px">LP in TON pools</div>
+          <p class="muted" style="margin:6px 0 0">Part of every trade funds liquidity across the ecosystem.</p>
+        </div>
+        <div class="tile">
+          <div class="muted">Buyback & Burn</div>
+          <div class="knum" style="font-size:22px;margin-top:4px">Deflationary</div>
+          <p class="muted" style="margin:6px 0 0">LP fees are recycled to buy TONFI on the market and burn.</p>
+        </div>
+        <div class="tile">
+          <div class="muted">Passive Income</div>
+          <div class="knum" style="font-size:22px;margin-top:4px">Rewards to holders</div>
+          <p class="muted" style="margin:6px 0 0">A portion of taxes goes directly to holders.</p>
         </div>
       </div>
-      <div class="card">
-        <h3>Treasury Wallet</h3>
-        <p class="muted" id="wallet">UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh</p>
-        <div class="value" id="totalUsd">Loading…</div>
-        <p class="muted" id="status">Fetching…</p>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="tokenomics" class="card">
-      <h3>Tokenomics</h3>
-      <ul class="muted">
-        <li>Buy Tax 5% → 3% Liquidity, 2% Holders</li>
-        <li>Sell Tax 7% → 5% Liquidity, 2% Holders</li>
-        <li>Liquidity fees fund buyback & burn</li>
-        <li>Fixed supply, deflationary</li>
+  <!-- TOKENOMICS -->
+  <section id="tokenomics" class="card">
+    <h3 class="title">Tokenomics</h3>
+    <ul class="muted">
+      <li><b>Buy Tax: 5%</b> → 3% Liquidity · 2% to holders</li>
+      <li><b>Sell Tax: 7%</b> → 5% Liquidity · 2% to holders</li>
+      <li>LP fees fund <b>buyback & burn</b>.</li>
+      <li>Fixed supply. Burns reduce circulating supply over time.</li>
+    </ul>
+  </section>
+
+  <!-- DAO -->
+  <section id="dao" class="card">
+    <h3 class="title">TonFi DAO — Liquidity Proposals</h3>
+    <p class="muted">Propose which TON tokens the treasury should support with liquidity. Community signaling directs allocations.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
+      <a class="btn primary" href="https://t.me/replace_with_your_tonfi_channel" target="_blank" rel="noopener">Submit Proposal on Telegram</a>
+      <a class="btn" href="https://t.me/share/url?url=TonFi%20DAO%20Proposal&text=I%20propose%20we%20allocate%20liquidity%20to%20[TOKEN]%20because..." target="_blank" rel="noopener">Quick Proposal Template</a>
+    </div>
+    <p class="muted" style="margin-top:10px">Tip: replace the link above with your actual Telegram group/channel.</p>
+  </section>
+
+  <!-- HOW TO BUY -->
+  <section id="buy" class="card">
+    <h3 class="title">How to Buy</h3>
+    <ol class="muted">
+      <li>Install a TON wallet (Tonkeeper, MyTonWallet).</li>
+      <li>Acquire TON and connect to a DEX (DeDust, Ston.fi).</li>
+      <li>Search for <b>TONFI</b> by contract once live, set slippage per tax, and swap.</li>
+    </ol>
+    <p class="muted">DEX / contract links will appear after deployment.</p>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="grid cols-3">
+    <div class="card">
+      <h3 class="title">Phase 1 — Launch</h3>
+      <ul>
+        <li>Deploy TONFI</li>
+        <li>Open community</li>
+        <li>Core branding</li>
       </ul>
-    </section>
+    </div>
+    <div class="card">
+      <h3 class="title">Phase 2 — Utility</h3>
+      <ul>
+        <li>DAO proposals live</li>
+        <li>Partnerships on TON</li>
+        <li>Website enhancements</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 class="title">Phase 3 — Growth</h3>
+      <ul>
+        <li>Multi-pool LP</li>
+        <li>Automated buyback & burn</li>
+        <li>Referral “Earn” system</li>
+      </ul>
+    </div>
+  </section>
 
-    <section id="dao" class="card">
-      <h3>DAO</h3>
-      <p class="muted">Community can suggest which TON tokens to support with liquidity.</p>
-      <a class="btn primary" href="https://t.me/replace_with_your_channel" target="_blank">Submit Proposal</a>
-    </section>
+  <!-- FAQ -->
+  <section class="card">
+    <h3 class="title">FAQ</h3>
+    <details>
+      <summary>How does the Liquidity Engine work?</summary>
+      <p class="muted">Part of every trade funds liquidity provisioning in external TON pools. LP fees return to treasury → used for market buybacks and burns.</p>
+    </details>
+    <details>
+      <summary>When will the treasury be visible?</summary>
+      <p class="muted">As soon as we add the public wallet, the live value widget will appear on this page.</p>
+    </details>
+    <details>
+      <summary>When is the contract live?</summary>
+      <p class="muted">Once deployed, the address and DEX links will be added here.</p>
+    </details>
+  </section>
 
-    <section id="buy" class="card">
-      <h3>How to Buy</h3>
-      <ol class="muted">
-        <li>Install a TON wallet</li>
-        <li>Get TON and go to a DEX (DeDust, Ston.fi)</li>
-        <li>Search for TONFI and swap</li>
-      </ol>
-    </section>
-
-    <footer>
-      © <span id="year"></span> TonFi • Built on TON
-    </footer>
-  </main>
+  <footer>
+    <div class="container" style="padding:0">© <span id="year"></span> TonFi • Built on TON • Liquidity-backed passive income</div>
+  </footer>
+</main>
 
 <script>
-  const $=q=>document.querySelector(q);
-  $('#year').textContent=new Date().getFullYear();
+  // Footer year
+  document.querySelector('#year').textContent = new Date().getFullYear();
 
-  // animated rain
-  (function(){
-    const R=$('#rain'); const n=30, w=window.innerWidth;
-    for(let i=0;i<n;i++){
-      const d=document.createElement('div'); d.className='drop';
-      d.style.left=(Math.random()*w)+'px';
-      d.style.animationDuration=(5+Math.random()*6)+'s';
-      d.style.animationDelay=(-Math.random()*6)+'s';
-      R.appendChild(d);
-    }
-  })();
-
-  // treasury tracker
-  const WALLET="UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh";
-  async function getJSON(u){const r=await fetch(u);if(!r.ok)throw new Error();return r.json();}
-  async function load(){
-    try{
-      const acc=await getJSON("https://tonapi.io/v2/accounts/"+WALLET);
-      const bal=Number(acc.balance||0)/1e9;
-      const rate=await getJSON("https://tonapi.io/v2/rates?tokens=ton&currencies=usd");
-      const usd=bal*(rate.rates?.TON?.prices?.USD||0);
-      $('#totalUsd').textContent=usd?new Intl.NumberFormat(undefined,{style:'currency',currency:'USD'}).format(usd):'—';
-      $('#status').textContent="Live";
-    }catch(e){
-      $('#totalUsd').textContent="Unavailable";
-      $('#status').textContent="Offline";
-    }
-  }
-  load();
+  // === Add the treasury later ===
+  // When you're ready, do this:
+  // 1) Replace the disabled Treasury button in HERO with a link to #treasury
+  // 2) Insert a new <section id="treasury"> ... </section> (I can paste the live USD tracker for you)
+  // 3) Set WALLET = 'YOUR_TREASURY_ADDRESS' in the tracker script we used before
 </script>
 </body>
 </html>
