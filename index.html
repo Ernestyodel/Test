@@ -1,170 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TonFi – Passive Income on TON</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TonFi — Passive Income on TON</title>
+  <meta name="description" content="TonFi is a community-driven token on TON that shares fees with holders and builds a treasure reserve to support the TON ecosystem." />
+  <meta property="og:title" content="TonFi — Passive Income on TON" />
+  <meta property="og:description" content="Earn passive income on TON. Smart liquidity + buyback & burn + holder rewards." />
+  <meta name="theme-color" content="#119CFF" />
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0a0f1e;
-      color: white;
-      text-align: center;
-      overflow-x: hidden;
+    :root{
+      --bg1:#060b18; --bg2:#0b1226; --tone:#14a8ff; --tone2:#23d2ff; --glass:rgba(255,255,255,.06);
+      --text:#eaf3ff; --muted:#a4b5cf; --accent:#5ff1ff; --card:rgba(255,255,255,.08); --border:rgba(255,255,255,.12);
+      --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35);
     }
-
-    /* Falling TON logos */
-    .falling {
-      position: fixed;
-      top: -10%;
-      width: 30px;
-      height: 30px;
-      background-image: url("https://cryptologos.cc/logos/toncoin-ton-logo.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-      animation: fall linear infinite;
-      opacity: 0.8;
-      z-index: 0;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:var(--text); background: radial-gradient(1200px 800px at 80% -10%, #10305c22, transparent 60%), linear-gradient(180deg,var(--bg1),var(--bg2));
+      overflow-x:hidden;
     }
-    @keyframes fall {
-      0% { transform: translateY(-10vh); }
-      100% { transform: translateY(110vh); }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{opacity:.9}
+    .container{max-width:1100px; padding:0 16px; margin:0 auto}
+    /* Nav */
+    .nav{position:sticky; top:0; z-index:20; backdrop-filter: blur(10px); background:linear-gradient(180deg,rgba(6,11,24,.85),rgba(6,11,24,.55)); border-bottom:1px solid var(--border)}
+    .nav-inner{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; gap:10px; align-items:center}
+    .logo{
+      width:36px; height:36px; border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, #1fc8ff, #0f77ff);
+      display:grid; place-items:center; box-shadow: var(--shadow);
     }
-
-    header {
-      padding: 3rem 1rem;
-      position: relative;
-      z-index: 1;
+    .logo svg{width:20px;height:20px; fill:white}
+    .brand h1{font-size:18px; margin:0; letter-spacing:.5px}
+    .nav-cta{display:flex; gap:10px}
+    .btn{padding:10px 14px; border-radius:12px; border:1px solid var(--border); color:var(--text); background:transparent}
+    .btn.primary{background:linear-gradient(90deg,var(--tone),var(--tone2)); border:none; color:#002132; font-weight:700}
+    /* Hero */
+    .hero{position:relative; padding:72px 0 40px}
+    .hero h2{font-size:38px; line-height:1.1; margin:0 0 14px}
+    .hero p{color:var(--muted); font-size:16px; margin:0 0 22px}
+    .hero .cta{display:flex; gap:12px; flex-wrap:wrap}
+    .badge{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; font-size:12px; border-radius:999px; border:1px solid var(--border); background:var(--glass); color:var(--muted); margin-bottom:14px}
+    /* Sections */
+    section{padding:28px 0}
+    .grid{display:grid; gap:16px}
+    @media(min-width:900px){ .grid.cols-3{grid-template-columns:repeat(3,1fr)} .grid.cols-2{grid-template-columns:repeat(2,1fr)} }
+    .card{
+      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03)); border:1px solid var(--border);
+      border-radius:var(--radius); padding:18px; box-shadow: var(--shadow);
     }
-    header img {
-      width: 100px;
-      margin-bottom: 1rem;
-    }
-    header h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-    }
-    header p {
-      font-size: 1.2rem;
-      opacity: 0.9;
-    }
-
-    .section {
-      padding: 3rem 1rem;
-      background: rgba(255, 255, 255, 0.05);
-      margin: 1rem;
-      border-radius: 12px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .tokenomics {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-    .card {
-      background: rgba(0, 0, 0, 0.4);
-      padding: 1rem;
-      border-radius: 10px;
-    }
-
-    footer {
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.6);
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    a {
-      color: #ffdd57;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-
-    /* Mascot images */
-    .mascots {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 2rem;
-    }
-    .mascots img {
-      width: 120px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 10px;
-    }
+    .card h3{margin:0 0 8px; font-size:18px}
+    .muted{color:var(--muted)}
+    .kpi{font-size:28px; font-weight:800; background:linear-gradient(90deg,#fff,var(--accent)); -webkit-background-clip:text; background-clip:text; color:transparent}
+    /* FAQ */
+    details{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 16px}
+    details+details{margin-top:10px}
+    summary{cursor:pointer; font-weight:600; outline:none}
+    summary::-webkit-details-marker{display:none}
+    /* Footer */
+    footer{border-top:1px solid var(--border); margin-top:34px; padding:24px 0 40px; color:var(--muted)}
+    .social{display:flex; gap:10px}
+    .social a{display:grid; place-items:center; width:40px; height:40px; border-radius:12px; background:var(--glass); border:1px solid var(--border)}
+    /* Subtle animated TON logos */
+    .bg-fall{position:absolute; inset:0; pointer-events:none; overflow:hidden}
+    .ton{position:absolute; width:18px; height:18px; opacity:.18; animation:fall linear infinite; filter:drop-shadow(0 6px 10px rgba(20,168,255,.25))}
+    @keyframes fall{ from{transform: translateY(-10vh)} to{transform: translateY(110vh)} }
+    /* Section titles */
+    .section-title{display:flex; align-items:center; gap:10px; margin-bottom:10px}
+    .section-title .dot{width:8px;height:8px;border-radius:50%; background:var(--tone2); box-shadow:0 0 20px var(--tone2)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
   </style>
 </head>
 <body>
 
-  <!-- Falling TON logos -->
-  <script>
-    for (let i = 0; i < 20; i++) {
-      let logo = document.createElement("div");
-      logo.classList.add("falling");
-      logo.style.left = Math.random() * 100 + "vw";
-      logo.style.animationDuration = 5 + Math.random() * 5 + "s";
-      document.body.appendChild(logo);
-    }
-  </script>
+  <!-- Top Nav -->
+  <div class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <!-- TON glyph -->
+          <svg viewBox="0 0 24 24"><path d="M12 2l8.66 5v10L12 22l-8.66-5V7L12 2zm0 2.3L5.34 7.5v8.99L12 19.7l6.66-3.21V7.5L12 4.3z"/></svg>
+        </div>
+        <h1>TonFi</h1>
+      </div>
+      <div class="nav-cta">
+        <a class="btn" href="https://t.me/tonfi" target="_blank" rel="noopener">Telegram</a>
+        <a class="btn primary" href="#" target="_blank" rel="noopener">Buy on DEX</a>
+      </div>
+    </div>
+  </div>
 
-  <header>
-    <img src="YOUR_TONFI_LOGO_URL" alt="TonFi Logo" />
-    <h1>🚀 TonFi</h1>
-    <p>Passive Income on TON Blockchain</p>
+  <!-- Hero -->
+  <header class="hero">
+    <div class="bg-fall" id="fall"></div>
+    <div class="container">
+      <span class="badge"><span style="width:8px;height:8px;background:var(--tone2);border-radius:50%"></span>Live on TON</span>
+      <h2>Passive Income on TON, <span style="color:var(--accent)">Meme Energy</span> with Real Utility</h2>
+      <p>TonFi is a community token building a treasure reserve that earns LP fees across TON markets and recycles value into buyback &amp; burn and holder rewards.</p>
+      <div class="cta">
+        <a class="btn primary" href="#" target="_blank" rel="noopener">Launch App</a>
+        <a class="btn" href="#" target="_blank" rel="noopener">View Contract</a>
+      </div>
+    </div>
   </header>
 
-  <section class="section">
-    <h2>What is TonFi?</h2>
-    <p>
-      TonFi is a meme-powered project on the TON Blockchain.  
-      It rewards holders with passive income while supporting TON ecosystem liquidity.
-    </p>
-  </section>
-
-  <section class="section">
-    <h2>📊 Tokenomics</h2>
-    <div class="tokenomics">
-      <div class="card">
-        <h3>Buy Tax</h3>
-        <p>5% total → 3% liquidity & buyback 🔥, 2% holders 💎</p>
+  <main class="container">
+    <!-- Value props -->
+    <section>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>Treasure Reserve</h3>
+          <p class="muted">Part of the tax auto-allocates to curated TON liquidity positions aiming to earn sustainable LP fees.</p>
+        </div>
+        <div class="card">
+          <h3>Buyback &amp; Burn</h3>
+          <p class="muted">LP yield &amp; reserve profits fund periodic buybacks; purchased tokens are burned to reduce supply.</p>
+        </div>
+        <div class="card">
+          <h3>Holder Rewards</h3>
+          <p class="muted">A portion of buy/sell taxes flows back to long-term holders as passive income.</p>
+        </div>
       </div>
-      <div class="card">
-        <h3>Sell Tax</h3>
-        <p>7% total → 5% liquidity & buyback 🔥, 2% holders 💎</p>
+    </section>
+
+    <!-- Tokenomics -->
+    <section>
+      <div class="section-title"><span class="dot"></span><h3 style="margin:0">Tokenomics</h3></div>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>Buy Tax</h3>
+          <div class="kpi">5%</div>
+          <p class="muted">3% Liquidity &amp; Buyback • 2% Holders</p>
+        </div>
+        <div class="card">
+          <h3>Sell Tax</h3>
+          <div class="kpi">7%</div>
+          <p class="muted">5% Liquidity &amp; Buyback • 2% Holders</p>
+        </div>
+        <div class="card">
+          <h3>Supply &amp; Ticker</h3>
+          <div class="kpi mono">TBA</div>
+          <p class="muted">Fair, transparent, and auditable.</p>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <h2>🦆🐦 Our Mascots</h2>
-    <div class="mascots">
-      <img src="YOUR_CROW_IMAGE_URL" alt="Crow Mascot" />
-      <img src="YOUR_DUCK_IMAGE_URL" alt="Duck Mascot" />
-    </div>
-    <p>Crows, Ducks & Memes fuel TonFi 🚀</p>
-  </section>
+    <!-- Roadmap -->
+    <section>
+      <div class="section-title"><span class="dot"></span><h3 style="margin:0">Roadmap</h3></div>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Phase 1 — Launch</h3>
+          <ul class="muted">
+            <li>Website, social, and community ignition</li>
+            <li>Initial LP and trading pair on TON DEX</li>
+            <li>First treasury allocations</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Phase 2 — Flywheel</h3>
+          <ul class="muted">
+            <li>LP fee recycling → buyback &amp; burn cadence</li>
+            <li>Holder rewards automation</li>
+            <li>Listings &amp; ecosystem partnerships</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-  <section class="section">
-    <h2>🌐 Join the Community</h2>
-    <p>
-      <a href="https://t.me/tonfi" target="_blank">Telegram</a> | 
-      <a href="https://x.com/" target="_blank">Twitter</a>
-    </p>
-  </section>
+    <!-- FAQ -->
+    <section>
+      <div class="section-title"><span class="dot"></span><h3 style="margin:0">FAQ</h3></div>
+      <details>
+        <summary>How do the taxes fund value?</summary>
+        <p class="muted">On buys/sells, allocations route to the treasure reserve and holder rewards. Reserve positions target LP fees; those fees help fund buybacks and periodic burns.</p>
+      </details>
+      <details>
+        <summary>Where can I see the treasury?</summary>
+        <p class="muted">We’ll publish transparent treasury addresses and dashboards after launch.</p>
+      </details>
+      <details>
+        <summary>Is TonFi a meme or utility?</summary>
+        <p class="muted">Both. Memes for culture; on-chain cashflows for durability.</p>
+      </details>
+    </section>
+  </main>
 
   <footer>
-    <p>© 2025 TonFi.meme – Powered by TON Blockchain</p>
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+      <div>© <span id="year"></span> TonFi • Built on TON</div>
+      <div class="social">
+        <a href="https://t.me/tonfi" target="_blank" aria-label="Telegram" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9.04 15.03l-.37 5.2c.53 0 .76-.23 1.03-.5l2.48-2.38 5.15 3.77c.94.52 1.61.25 1.87-.87l3.39-15.9h0c.3-1.38-.5-1.92-1.41-1.58L1.55 9.67c-1.35.53-1.33 1.3-.23 1.64l5.22 1.63 12.16-7.67c.57-.37 1.09-.17.66.2L9.04 15.03z" fill="currentColor"/></svg>
+        </a>
+        <a href="https://x.com" target="_blank" aria-label="Twitter/X" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18.244 2H21l-6.47 7.39L22.5 22h-6.9l-4.46-6.13L5.86 22H3.1l6.89-7.87L1.5 2h7.02l4.02 5.57L18.244 2Zm-1.207 18h1.951L7.05 4h-2L17.037 20Z" fill="currentColor"/></svg>
+        </a>
+        <a href="#" target="_blank" aria-label="Contract" rel="noopener" title="View Contract">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 2h9l3 3v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 2v16h10V6h-3V4H6Zm2 4h6v2H8V8Zm0 4h6v2H8v-2Zm0 4h4v2H8v-2Z" fill="currentColor"/></svg>
+        </a>
+      </div>
+    </div>
   </footer>
 
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Subtle TON logos falling (pure SVG path; no external image)
+    const fall = document.getElementById('fall');
+    const N = 22;
+    for(let i=0;i<N;i++){
+      const el = document.createElement('div');
+      el.className = 'ton';
+      const size = 14 + Math.random()*10;
+      el.style.left = (Math.random()*100)+'vw';
+      el.style.animationDuration = (6 + Math.random()*8)+'s';
+      el.style.animationDelay = (Math.random()*-10)+'s';
+      el.style.opacity = (0.12 + Math.random()*0.12).toFixed(2);
+      el.innerHTML = `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" style="display:block">
+        <path d="M12 2l8.66 5v10L12 22l-8.66-5V7L12 2z" fill="url(#g${i})" />
+        <defs><linearGradient id="g${i}" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#14a8ff"/><stop offset="100%" stop-color="#23d2ff"/></linearGradient></defs>
+      </svg>`;
+      fall.appendChild(el);
+    }
+  </script>
 </body>
 </html>
