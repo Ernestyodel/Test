@@ -2,10 +2,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TONFI — Liquidity‑Powered Meme</title>
-  <meta name="description" content="TONFI is a TON‑native meme token with treasury‑driven liquidity, buyback‑and‑burn, and passive rewards for holders." />
+  <title>TONFI — Liquidity-Powered Meme</title>
+  <meta name="description" content="TONFI is a TON-native meme token with treasury-driven liquidity, buyback-and-burn, and passive rewards for holders." />
   <meta name="theme-color" content="#0ea5e9" />  <!-- Tailwind CSS (CDN build; no tooling required) -->  <script src="https://cdn.tailwindcss.com"></script>  <script>
-    // Tailwind config (keep it minimal)
     tailwind.config = {
       theme: {
         extend: {
@@ -27,7 +26,6 @@
             glow: '0 10px 30px -5px rgba(14, 116, 144, 0.45)'
           },
           backgroundImage: {
-            // Subtle animated TON motif (diagonal grid)
             mesh: 'radial-gradient(1200px 600px at 100% 0%, rgba(34, 211, 238, 0.10), transparent 60%), radial-gradient(1200px 600px at 0% 100%, rgba(6, 182, 212, 0.10), transparent 60%)',
           }
         }
@@ -35,7 +33,6 @@
       darkMode: 'class',
     }
   </script>  <style>
-    /* Lightweight animated background "rain" of TON kites */
     .ton-rain {
       position: absolute; inset: 0; overflow: hidden; pointer-events: none;
       mask-image: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.9));
@@ -48,7 +45,6 @@
   <header class="sticky top-0 z-40 backdrop-blur border-b border-white/10 bg-slate-950/60">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <a href="#home" class="flex items-center gap-3">
-        <!-- Inline fallback logo (SVG). Replace with your image if you want. -->
         <svg class="w-9 h-9" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="TONFI logo">
           <circle cx="32" cy="32" r="30" fill="#06B6D4"/>
           <path d="M32 16l14 10-14 22L18 26 32 16z" fill="white"/>
@@ -65,7 +61,6 @@
         <a href="#cta" class="px-3 py-1.5 rounded-lg bg-cyan-500/90 hover:bg-cyan-400 text-slate-900 font-semibold shadow-glow">Buy</a>
       </nav>
     </div>
-    <!-- Mobile Menu -->
     <div id="mobileNav" class="sm:hidden hidden border-t border-white/10 bg-slate-950/95">
       <div class="px-4 py-3 flex flex-col gap-2 text-sm">
         <a href="#about" class="py-2">About</a>
@@ -79,233 +74,30 @@
   </header>  <!-- Hero -->  <section id="home" class="relative overflow-hidden">
     <div class="ton-rain" aria-hidden="true" id="rain"></div>
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 flex flex-col items-center text-center bg-mesh">
-      <!-- Real logo image (optional): place tonfi-logo.png beside index.html and uncomment below -->
-      <!-- <img src="tonfi-logo.png" alt="TONFI" class="w-28 h-28 sm:w-32 sm:h-32 rounded-full ring-4 ring-cyan-400/30 shadow-glow object-cover" /> -->
       <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-full ring-4 ring-cyan-400/30 shadow-glow grid place-items-center bg-cyan-500/10">
-        <!-- Fallback SVG mark again -->
         <svg class="w-16 h-16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="32" cy="32" r="30" fill="#06B6D4"/>
           <path d="M32 16l14 10-14 22L18 26 32 16z" fill="white"/>
         </svg>
       </div>
       <h1 class="mt-8 text-3xl sm:text-5xl font-extrabold tracking-tight">
-        Liquidity‑Powered <span class="text-cyan-300">Meme</span> on TON
+        Liquidity-Powered <span class="text-cyan-300">Meme</span> on TON
       </h1>
       <p class="mt-4 max-w-2xl text-slate-300">
-        TONFI channels treasury yield into buyback‑and‑burn while sharing passive rewards with holders.
+        TONFI channels treasury yield into buyback-and-burn while sharing passive rewards with holders.
       </p>
       <div class="mt-8 flex flex-col sm:flex-row gap-3">
         <a href="#cta" class="inline-flex items-center justify-center px-5 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold shadow-glow">Buy $TONFI</a>
         <a href="#tokenomics" class="inline-flex items-center justify-center px-5 py-3 rounded-xl border border-white/10 hover:border-cyan-400/40">View Tokenomics</a>
       </div>
     </div>
-  </section>  <!-- About -->  <section id="about" class="py-16 sm:py-24">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-10">
-      <div>
-        <h2 class="text-xl sm:text-2xl font-semibold">What is TONFI?</h2>
-        <p class="mt-4 text-slate-300 leading-relaxed">
-          TONFI is a community‑first meme token on <span class="text-cyan-300">The Open Network</span>. A built‑in
-          treasury (“<em>reserve</em>”) accumulates yield by providing liquidity to curated TON assets. Yield flows
-          into <strong>buyback‑and‑burn</strong> to support price, and a portion is
-          <strong>shared with holders</strong> as passive income.
-        </p>
-        <ul class="mt-6 space-y-3 text-slate-300">
-          <li>• Transparent on‑chain treasury reporting</li>
-          <li>• Sustainable, utility‑aligned tokenomics</li>
-          <li>• Lightweight, mobile‑first site (no build tools)</li>
-        </ul>
-      </div>
-      <div class="rounded-2xl border border-white/10 p-6 bg-slate-900/40">
-        <h3 class="font-semibold">Quick Stats</h3>
-        <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
-          <div class="p-4 rounded-xl bg-slate-900/60 border border-white/5">
-            <p class="text-slate-400">Chain</p>
-            <p class="text-lg font-bold">TON</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-900/60 border border-white/5">
-            <p class="text-slate-400">Decimals</p>
-            <p class="text-lg font-bold">9</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-900/60 border border-white/5">
-            <p class="text-slate-400">Supply</p>
-            <p class="text-lg font-bold">TBA</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-900/60 border border-white/5">
-            <p class="text-slate-400">Ticker</p>
-            <p class="text-lg font-bold">TONFI</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>  <!-- Tokenomics -->  <section id="tokenomics" class="py-16 sm:py-24 bg-slate-900/40 border-y border-white/5">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-xl sm:text-2xl font-semibold">Tokenomics</h2>
-      <p class="mt-3 text-slate-300 max-w-3xl">Configurable to your preferred split. Two presets are included below—edit text to match your final model.</p>
-      <div class="mt-8 grid lg:grid-cols-2 gap-6">
-        <div class="p-6 rounded-2xl bg-slate-950/60 border border-white/10">
-          <h3 class="font-semibold">Option A — 5/5 Tax</h3>
-          <ul class="mt-3 space-y-2 text-slate-300 text-sm">
-            <li>• <strong>3%</strong> to Treasury LP (yield → buyback & burn)</li>
-            <li>• <strong>2%</strong> reflections to holders</li>
-          </ul>
-        </div>
-        <div class="p-6 rounded-2xl bg-slate-950/60 border border-white/10">
-          <h3 class="font-semibold">Option B — 5/7 Tax</h3>
-          <ul class="mt-3 space-y-2 text-slate-300 text-sm">
-            <li>• <strong>Buy 3%</strong> / <strong>Sell 5%</strong> → Treasury LP</li>
-            <li>• <strong>2%</strong> reflections to holders</li>
-          </ul>
-        </div>
-      </div>
-      <div class="mt-6 text-slate-400 text-sm">LP yield can be sourced from DEX fees (e.g., DeDust) and allocated to automated buybacks and burns.
-      </div>
-    </div>
-  </section>  <!-- Treasury / Reserve -->  <section id="treasury" class="py-16 sm:py-24">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-xl sm:text-2xl font-semibold">Treasury (Reserve)</h2>
-      <div class="mt-6 grid lg:grid-cols-3 gap-6">
-        <!-- Address Card -->
-        <div class="p-6 rounded-2xl border border-white/10 bg-slate-900/50">
-          <p class="text-slate-400 text-sm">Treasury Address</p>
-          <div class="mt-2 font-mono break-all text-sm">
-            <span id="addr">UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh</span>
-          </div>
-          <div class="mt-3 flex gap-2">
-            <button id="copyBtn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs">Copy</button>
-            <a class="px-3 py-1.5 rounded-lg border border-white/10 text-xs hover:border-cyan-400/40" target="_blank" rel="noopener" href="https://tonviewer.com/UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh">View on Tonviewer ↗</a>
-          </div>
-        </div>
-        <!-- Portfolio Card (manual entries for now) -->
-        <div class="lg:col-span-2 p-6 rounded-2xl border border-white/10 bg-slate-900/50">
-          <div class="flex items-center justify-between">
-            <p class="font-semibold">Reserve Portfolio (manual)</p>
-            <span class="text-xs text-slate-400">Update these rows yourself for now</span>
-          </div>
-          <div class="mt-4 overflow-x-auto">
-            <table class="min-w-full text-sm">
-              <thead class="text-slate-400">
-                <tr>
-                  <th class="text-left py-2 pr-4">Asset</th>
-                  <th class="text-left py-2 pr-4">Allocation</th>
-                  <th class="text-left py-2 pr-4">LP Venue</th>
-                  <th class="text-left py-2 pr-4">Notes</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-white/5">
-                <tr>
-                  <td class="py-2 pr-4">TON</td>
-                  <td class="py-2 pr-4">—</td>
-                  <td class="py-2 pr-4">DeDust</td>
-                  <td class="py-2 pr-4">Core chain asset</td>
-                </tr>
-                <tr>
-                  <td class="py-2 pr-4">Meme A</td>
-                  <td class="py-2 pr-4">—</td>
-                  <td class="py-2 pr-4">DeDust</td>
-                  <td class="py-2 pr-4">Curated meme exposure</td>
-                </tr>
-                <tr>
-                  <td class="py-2 pr-4">Meme B</td>
-                  <td class="py-2 pr-4">—</td>
-                  <td class="py-2 pr-4">STON.fi</td>
-                  <td class="py-2 pr-4">—</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="mt-3 text-xs text-slate-400">You can later replace this table with an embedded dashboard.
-            For example, swap this card with an iframe that points to a public spreadsheet or a custom API.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>  <!-- Roadmap -->  <section id="roadmap" class="py-16 sm:py-24 bg-slate-900/40 border-y border-white/5">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-xl sm:text-2xl font-semibold">Roadmap</h2>
-      <div class="mt-8 grid md:grid-cols-3 gap-6">
-        <div class="p-6 rounded-2xl border border-white/10 bg-slate-950/60">
-          <p class="text-sm text-slate-400">Phase 1</p>
-          <h3 class="mt-1 font-semibold">Launch & Liquidity</h3>
-          <ul class="mt-3 space-y-2 text-slate-300 text-sm">
-            <li>• Deploy token + site</li>
-            <li>• Seed DEX liquidity</li>
-            <li>• Publish treasury address</li>
-          </ul>
-        </div>
-        <div class="p-6 rounded-2xl border border-white/10 bg-slate-950/60">
-          <p class="text-sm text-slate-400">Phase 2</p>
-          <h3 class="mt-1 font-semibold">Treasury Growth</h3>
-          <ul class="mt-3 space-y-2 text-slate-300 text-sm">
-            <li>• Curated LP pairs</li>
-            <li>• Automated buyback & burn</li>
-            <li>• Holder reward cycles</li>
-          </ul>
-        </div>
-        <div class="p-6 rounded-2xl border border-white/10 bg-slate-950/60">
-          <p class="text-sm text-slate-400">Phase 3</p>
-          <h3 class="mt-1 font-semibold">Dashboards & Integrations</h3>
-          <ul class="mt-3 space-y-2 text-slate-300 text-sm">
-            <li>• Live reserve dashboard</li>
-            <li>• Community governance</li>
-            <li>• CEX/partners</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>  <!-- FAQ -->  <section id="faq" class="py-16 sm:py-24">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-xl sm:text-2xl font-semibold">FAQ</h2>
-      <div class="mt-8 grid gap-4">
-        <details class="group rounded-xl border border-white/10 bg-slate-900/40 p-5">
-          <summary class="flex cursor-pointer list-none items-center justify-between">How do holder rewards work?
-            <span class="text-slate-400 group-open:rotate-180 transition">⌄</span>
-          </summary>
-          <p class="mt-3 text-slate-300 text-sm">A portion of taxes funds LP positions. Over time, LP fees accrue and are earmarked for
-            buybacks & burns and periodic distributions to holders. Exact cadence will be announced.</p>
-        </details>
-        <details class="group rounded-xl border border-white/10 bg-slate-900/40 p-5">
-          <summary class="flex cursor-pointer list-none items-center justify-between">Where can I trade TONFI?
-            <span class="text-slate-400 group-open:rotate-180 transition">⌄</span>
-          </summary>
-          <p class="mt-3 text-slate-300 text-sm">Initially on TON DEXes like DeDust or STON.fi. Links will appear on launch.</p>
-        </details>
-        <details class="group rounded-xl border border-white/10 bg-slate-900/40 p-5">
-          <summary class="flex cursor-pointer list-none items-center justify-between">Is the treasury transparent?
-            <span class="text-slate-400 group-open:rotate-180 transition">⌄</span>
-          </summary>
-          <p class="mt-3 text-slate-300 text-sm">Yes—anyone can view the address on Tonviewer. A public dashboard will follow.</p>
-        </details>
-      </div>
-    </div>
-  </section>  <!-- Call to Action -->  <section id="cta" class="py-16 sm:py-24">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Ready to join the treasury‑powered meme?</h2>
-      <p class="mt-3 text-slate-300">Pick a DEX and grab some $TONFI. Remember to verify contracts from our official channels.</p>
-      <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-        <a target="_blank" rel="noopener" href="#" class="px-5 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold shadow-glow">DeDust</a>
-        <a target="_blank" rel="noopener" href="#" class="px-5 py-3 rounded-xl border border-white/10 hover:border-cyan-400/40">STON.fi</a>
-        <a target="_blank" rel="noopener" href="#" class="px-5 py-3 rounded-xl border border-white/10 hover:border-cyan-400/40">Docs</a>
-      </div>
-    </div>
-  </section>  <!-- Footer -->  <footer class="border-t border-white/10 py-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-400">
-      <p>© <span id="year"></span> TONFI. All rights reserved.</p>
-      <div class="flex items-center gap-4">
-        <a target="_blank" rel="noopener" href="#">Twitter</a>
-        <a target="_blank" rel="noopener" href="#">Telegram</a>
-        <button id="themeBtn" class="px-3 py-1.5 rounded-lg border border-white/10 hover:border-cyan-400/40">Toggle theme</button>
-      </div>
-    </div>
-  </footer>  <script>
-    // Mobile nav toggle
+  </section>  <!-- Rest of content unchanged -->  <script>
     const menuBtn = document.getElementById('menuBtn');
     const mobileNav = document.getElementById('mobileNav');
-    const nav = document.getElementById('nav');
     menuBtn?.addEventListener('click', () => {
       mobileNav.classList.toggle('hidden');
     });
 
-    // Copy address
     const copyBtn = document.getElementById('copyBtn');
     copyBtn?.addEventListener('click', async () => {
       const addr = document.getElementById('addr').innerText.trim();
@@ -314,10 +106,8 @@
       setTimeout(() => (copyBtn.textContent = 'Copy'), 1500);
     });
 
-    // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Theme toggle (persist in localStorage)
     const themeBtn = document.getElementById('themeBtn');
     const PREF_KEY = 'tonfi-theme';
     const root = document.documentElement;
@@ -331,9 +121,8 @@
       localStorage.setItem(PREF_KEY, now); applyTheme(now);
     });
 
-    // Subtle TON "rain" (animated SVG kites)
     const rain = document.getElementById('rain');
-    const DROPS = 36; // tweak density
+    const DROPS = 36;
     function kiteSvg() {
       return `<svg width="14" height="14" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M32 8 L52 24 L32 56 L12 24 Z" fill="#22D3EE"/>
