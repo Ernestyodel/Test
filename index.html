@@ -2,133 +2,168 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>TonFi — Passive Income on TON</title>
-  <meta name="description" content="TonFi is a community-driven token on TON that shares fees with holders and builds a treasure reserve to support the TON ecosystem." />
-  <meta property="og:title" content="TonFi — Passive Income on TON" />
-  <meta property="og:description" content="Earn passive income on TON. Smart liquidity + buyback & burn + holder rewards." />
-  <meta name="theme-color" content="#119CFF" />
+  <meta name="description" content="TonFi is a community token on TON combining meme culture with on-chain cashflows: LP fee reserve, buyback & burn, and holder rewards."/>
+  <meta name="theme-color" content="#0E1224" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="TonFi — Passive Income on TON">
+  <meta property="og:description" content="Earn passive income on TON. Treasure reserve → LP fees → buyback & burn → holder rewards.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tonfi.meme/">
+  <meta property="og:image" content="YOUR_LOGO_SVG_OR_PNG">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TonFi — Passive Income on TON">
+  <meta name="twitter:description" content="LP fees and buybacks powering sustainable value for holders.">
+  <meta name="twitter:image" content="YOUR_LOGO_SVG_OR_PNG">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"TonFi",
+    "url":"https://tonfi.meme/",
+    "logo":"YOUR_LOGO_SVG_OR_PNG",
+    "sameAs":["YOUR_TELEGRAM_URL","YOUR_X_URL"]
+  }
+  </script>
+
   <style>
     :root{
-      --bg1:#060b18; --bg2:#0b1226; --tone:#14a8ff; --tone2:#23d2ff; --glass:rgba(255,255,255,.06);
-      --text:#eaf3ff; --muted:#a4b5cf; --accent:#5ff1ff; --card:rgba(255,255,255,.08); --border:rgba(255,255,255,.12);
-      --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35);
+      --bg:#0A0F1E; --bg2:#0E142A; --panel:#0f162e; --text:#EAF3FF; --muted:#9FB0C8;
+      --line:rgba(255,255,255,.12); --brand:#15A9FF; --brand2:#3FE7FF; --ok:#3EE58D; --warn:#FFD166;
+      --radius:20px; --shadow:0 14px 40px rgba(0,0,0,.35);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      color:var(--text); background: radial-gradient(1200px 800px at 80% -10%, #10305c22, transparent 60%), linear-gradient(180deg,var(--bg1),var(--bg2));
-      overflow-x:hidden;
+      margin:0; color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial;
+      background:
+        radial-gradient(1200px 900px at 90% -10%, #163a7a33, transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
-    a{color:var(--accent); text-decoration:none}
+    .container{max-width:1120px; margin:0 auto; padding:0 20px}
+    a{color:var(--brand2); text-decoration:none}
     a:hover{opacity:.9}
-    .container{max-width:1100px; padding:0 16px; margin:0 auto}
-    /* Nav */
-    .nav{position:sticky; top:0; z-index:20; backdrop-filter: blur(10px); background:linear-gradient(180deg,rgba(6,11,24,.85),rgba(6,11,24,.55)); border-bottom:1px solid var(--border)}
+    .visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+    /* Top bar */
+    .nav{position:sticky; top:0; z-index:30; backdrop-filter:saturate(140%) blur(12px);
+      background:linear-gradient(180deg,rgba(10,15,30,.85),rgba(10,15,30,.55)); border-bottom:1px solid var(--line)}
     .nav-inner{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
-    .brand{display:flex; gap:10px; align-items:center}
-    .logo{
-      width:36px; height:36px; border-radius:50%;
-      background: radial-gradient(circle at 30% 30%, #1fc8ff, #0f77ff);
-      display:grid; place-items:center; box-shadow: var(--shadow);
+    .brand{display:flex; align-items:center; gap:12px}
+    .brand-mark{width:40px;height:40px;border-radius:12px; display:grid;place-items:center;
+      background: radial-gradient(60% 60% at 30% 30%, var(--brand2), var(--brand));
+      box-shadow: var(--shadow);
     }
-    .logo svg{width:20px;height:20px; fill:white}
-    .brand h1{font-size:18px; margin:0; letter-spacing:.5px}
-    .nav-cta{display:flex; gap:10px}
-    .btn{padding:10px 14px; border-radius:12px; border:1px solid var(--border); color:var(--text); background:transparent}
-    .btn.primary{background:linear-gradient(90deg,var(--tone),var(--tone2)); border:none; color:#002132; font-weight:700}
+    .brand h1{font-size:18px; letter-spacing:.4px; margin:0}
+    .nav-cta{display:flex; gap:10px; align-items:center}
+    .btn{padding:10px 14px; border-radius:12px; border:1px solid var(--line); color:var(--text); background:transparent; transition:transform .05s ease}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand2)); color:#05202B; border:none; font-weight:700}
+    .btn.ghost{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));}
     /* Hero */
-    .hero{position:relative; padding:72px 0 40px}
-    .hero h2{font-size:38px; line-height:1.1; margin:0 0 14px}
-    .hero p{color:var(--muted); font-size:16px; margin:0 0 22px}
-    .hero .cta{display:flex; gap:12px; flex-wrap:wrap}
-    .badge{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; font-size:12px; border-radius:999px; border:1px solid var(--border); background:var(--glass); color:var(--muted); margin-bottom:14px}
+    header.hero{position:relative}
+    .fall{position:absolute; inset:0; pointer-events:none; overflow:hidden}
+    .ton{position:absolute; opacity:.16; filter:drop-shadow(0 6px 10px rgba(21,169,255,.25)); animation:fall linear infinite}
+    @keyframes fall{from{transform:translateY(-10vh)} to{transform:translateY(110vh)}}
+    .hero-inner{padding:80px 0 40px; display:grid; gap:22px}
+    .eyebrow{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--line);
+      border-radius:999px; font-size:12px; color:var(--muted); background:rgba(255,255,255,.05)}
+    .hero h2{font-size:42px; line-height:1.1; margin:6px 0 10px}
+    .hero p{color:var(--muted); max-width:780px}
+    .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:8px}
     /* Sections */
-    section{padding:28px 0}
+    main section{padding:28px 0}
     .grid{display:grid; gap:16px}
-    @media(min-width:900px){ .grid.cols-3{grid-template-columns:repeat(3,1fr)} .grid.cols-2{grid-template-columns:repeat(2,1fr)} }
+    @media(min-width:900px){ .grid.cols-3{grid-template-columns:repeat(3,1fr)} .grid.cols-2{grid-template-columns:repeat(2,1fr)}}
     .card{
-      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03)); border:1px solid var(--border);
-      border-radius:var(--radius); padding:18px; box-shadow: var(--shadow);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow)
     }
     .card h3{margin:0 0 8px; font-size:18px}
     .muted{color:var(--muted)}
-    .kpi{font-size:28px; font-weight:800; background:linear-gradient(90deg,#fff,var(--accent)); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .kpi{font-size:30px; font-weight:800; letter-spacing:.2px;
+      background:linear-gradient(90deg,#fff,var(--brand2)); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .list{margin:0; padding-left:18px}
+    /* Section headers */
+    .section-title{display:flex; align-items:center; gap:10px; margin:8px 0 12px}
+    .dot{width:8px;height:8px;border-radius:50%; background:var(--brand2); box-shadow:0 0 18px var(--brand2)}
     /* FAQ */
-    details{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 16px}
+    details{background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:16px; padding:14px 16px}
     details+details{margin-top:10px}
-    summary{cursor:pointer; font-weight:600; outline:none}
+    summary{cursor:pointer; font-weight:600}
     summary::-webkit-details-marker{display:none}
     /* Footer */
-    footer{border-top:1px solid var(--border); margin-top:34px; padding:24px 0 40px; color:var(--muted)}
+    footer{border-top:1px solid var(--line); margin-top:36px; padding:26px 0 40px; color:var(--muted)}
     .social{display:flex; gap:10px}
-    .social a{display:grid; place-items:center; width:40px; height:40px; border-radius:12px; background:var(--glass); border:1px solid var(--border)}
-    /* Subtle animated TON logos */
-    .bg-fall{position:absolute; inset:0; pointer-events:none; overflow:hidden}
-    .ton{position:absolute; width:18px; height:18px; opacity:.18; animation:fall linear infinite; filter:drop-shadow(0 6px 10px rgba(20,168,255,.25))}
-    @keyframes fall{ from{transform: translateY(-10vh)} to{transform: translateY(110vh)} }
-    /* Section titles */
-    .section-title{display:flex; align-items:center; gap:10px; margin-bottom:10px}
-    .section-title .dot{width:8px;height:8px;border-radius:50%; background:var(--tone2); box-shadow:0 0 20px var(--tone2)}
-    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    .social a{display:grid; place-items:center; width:40px; height:40px; border-radius:12px; background:rgba(255,255,255,.06); border:1px solid var(--line)}
+    /* Small helpers */
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace}
   </style>
 </head>
 <body>
-
-  <!-- Top Nav -->
-  <div class="nav">
+  <!-- Navigation -->
+  <nav class="nav" aria-label="Primary">
     <div class="container nav-inner">
       <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <!-- TON glyph -->
-          <svg viewBox="0 0 24 24"><path d="M12 2l8.66 5v10L12 22l-8.66-5V7L12 2zm0 2.3L5.34 7.5v8.99L12 19.7l6.66-3.21V7.5L12 4.3z"/></svg>
+        <div class="brand-mark" aria-hidden="true">
+          <!-- Inline TON-like glyph (no external assets) -->
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#fff" d="M12 2l8.66 5v10L12 22l-8.66-5V7L12 2z"/></svg>
         </div>
-        <h1>TonFi</h1>
+        <h1 aria-label="TonFi">TonFi</h1>
       </div>
       <div class="nav-cta">
-        <a class="btn" href="https://t.me/tonfi" target="_blank" rel="noopener">Telegram</a>
-        <a class="btn primary" href="#" target="_blank" rel="noopener">Buy on DEX</a>
+        <a class="btn ghost" href="YOUR_TELEGRAM_URL" target="_blank" rel="noopener">Telegram</a>
+        <a class="btn ghost" href="YOUR_X_URL" target="_blank" rel="noopener">X (Twitter)</a>
+        <a class="btn primary" href="YOUR_BUY_URL" target="_blank" rel="noopener">Buy on DEX</a>
       </div>
     </div>
-  </div>
+  </nav>
 
   <!-- Hero -->
   <header class="hero">
-    <div class="bg-fall" id="fall"></div>
-    <div class="container">
-      <span class="badge"><span style="width:8px;height:8px;background:var(--tone2);border-radius:50%"></span>Live on TON</span>
-      <h2>Passive Income on TON, <span style="color:var(--accent)">Meme Energy</span> with Real Utility</h2>
-      <p>TonFi is a community token building a treasure reserve that earns LP fees across TON markets and recycles value into buyback &amp; burn and holder rewards.</p>
+    <div class="fall" id="fall" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <span class="eyebrow"><span style="width:8px;height:8px;border-radius:50%;background:var(--brand2)"></span> Live on TON</span>
+      <h2>Passive Income on TON with a <span style="color:var(--brand2)">Sustainable Flywheel</span></h2>
+      <p>TonFi channels a portion of every trade into a curated treasure reserve that seeks LP fees across the TON ecosystem. Fees help fund recurring <strong>buyback &amp; burn</strong> and <strong>holder rewards</strong> for long-term sustainability.</p>
       <div class="cta">
-        <a class="btn primary" href="#" target="_blank" rel="noopener">Launch App</a>
-        <a class="btn" href="#" target="_blank" rel="noopener">View Contract</a>
+        <a class="btn primary" href="YOUR_BUY_URL" target="_blank" rel="noopener">Launch App</a>
+        <a class="btn" href="YOUR_CONTRACT_URL" target="_blank" rel="noopener">View Contract</a>
       </div>
     </div>
   </header>
 
-  <main class="container">
-    <!-- Value props -->
-    <section>
+  <main class="container" id="main">
+    <!-- Value Propositions -->
+    <section aria-labelledby="value">
+      <div class="section-title"><span class="dot"></span><h3 id="value" style="margin:0">Why TonFi</h3></div>
       <div class="grid cols-3">
         <div class="card">
           <h3>Treasure Reserve</h3>
-          <p class="muted">Part of the tax auto-allocates to curated TON liquidity positions aiming to earn sustainable LP fees.</p>
+          <p class="muted">Programmatic allocations to TON liquidity positions designed to earn fees and grow book value over time.</p>
         </div>
         <div class="card">
           <h3>Buyback &amp; Burn</h3>
-          <p class="muted">LP yield &amp; reserve profits fund periodic buybacks; purchased tokens are burned to reduce supply.</p>
+          <p class="muted">Reserve yield drives scheduled buybacks; purchased tokens are burned to reduce supply.</p>
         </div>
         <div class="card">
           <h3>Holder Rewards</h3>
-          <p class="muted">A portion of buy/sell taxes flows back to long-term holders as passive income.</p>
+          <p class="muted">A share of trading fees routes to holders as passive income, aligning community and protocol.</p>
         </div>
       </div>
     </section>
 
     <!-- Tokenomics -->
-    <section>
-      <div class="section-title"><span class="dot"></span><h3 style="margin:0">Tokenomics</h3></div>
+    <section aria-labelledby="tokenomics">
+      <div class="section-title"><span class="dot"></span><h3 id="tokenomics" style="margin:0">Tokenomics</h3></div>
       <div class="grid cols-3">
         <div class="card">
           <h3>Buy Tax</h3>
@@ -141,30 +176,30 @@
           <p class="muted">5% Liquidity &amp; Buyback • 2% Holders</p>
         </div>
         <div class="card">
-          <h3>Supply &amp; Ticker</h3>
+          <h3>Supply</h3>
           <div class="kpi mono">TBA</div>
-          <p class="muted">Fair, transparent, and auditable.</p>
+          <p class="muted">Fair, transparent, and auditable on-chain.</p>
         </div>
       </div>
     </section>
 
     <!-- Roadmap -->
-    <section>
-      <div class="section-title"><span class="dot"></span><h3 style="margin:0">Roadmap</h3></div>
+    <section aria-labelledby="roadmap">
+      <div class="section-title"><span class="dot"></span><h3 id="roadmap" style="margin:0">Roadmap</h3></div>
       <div class="grid cols-2">
         <div class="card">
           <h3>Phase 1 — Launch</h3>
-          <ul class="muted">
-            <li>Website, social, and community ignition</li>
-            <li>Initial LP and trading pair on TON DEX</li>
-            <li>First treasury allocations</li>
+          <ul class="list muted">
+            <li>Website, socials, and community ignition</li>
+            <li>Initial LP &amp; DEX listing on TON</li>
+            <li>First reserve allocations</li>
           </ul>
         </div>
         <div class="card">
           <h3>Phase 2 — Flywheel</h3>
-          <ul class="muted">
+          <ul class="list muted">
             <li>LP fee recycling → buyback &amp; burn cadence</li>
-            <li>Holder rewards automation</li>
+            <li>Automated holder rewards</li>
             <li>Listings &amp; ecosystem partnerships</li>
           </ul>
         </div>
@@ -172,59 +207,59 @@
     </section>
 
     <!-- FAQ -->
-    <section>
-      <div class="section-title"><span class="dot"></span><h3 style="margin:0">FAQ</h3></div>
+    <section aria-labelledby="faq">
+      <div class="section-title"><span class="dot"></span><h3 id="faq" style="margin:0">FAQ</h3></div>
       <details>
-        <summary>How do the taxes fund value?</summary>
-        <p class="muted">On buys/sells, allocations route to the treasure reserve and holder rewards. Reserve positions target LP fees; those fees help fund buybacks and periodic burns.</p>
+        <summary>How do the taxes create value?</summary>
+        <p class="muted">Buy/sell allocations feed the reserve and rewards. Reserve positions target LP fees; fees fund buybacks and periodic burns, reinforcing token scarcity while sharing value with holders.</p>
       </details>
       <details>
-        <summary>Where can I see the treasury?</summary>
-        <p class="muted">We’ll publish transparent treasury addresses and dashboards after launch.</p>
+        <summary>Where can I see reserve wallets?</summary>
+        <p class="muted">We’ll publish transparent addresses and dashboards post-launch, including periodic summaries of allocations and fees.</p>
       </details>
       <details>
-        <summary>Is TonFi a meme or utility?</summary>
-        <p class="muted">Both. Memes for culture; on-chain cashflows for durability.</p>
+        <summary>Is TonFi just a meme?</summary>
+        <p class="muted">It’s meme-forward for culture and growth, but the mechanics focus on repeatable on-chain cashflows.</p>
       </details>
     </section>
   </main>
 
-  <footer>
+  <footer role="contentinfo">
     <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
-      <div>© <span id="year"></span> TonFi • Built on TON</div>
-      <div class="social">
-        <a href="https://t.me/tonfi" target="_blank" aria-label="Telegram" rel="noopener">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9.04 15.03l-.37 5.2c.53 0 .76-.23 1.03-.5l2.48-2.38 5.15 3.77c.94.52 1.61.25 1.87-.87l3.39-15.9h0c.3-1.38-.5-1.92-1.41-1.58L1.55 9.67c-1.35.53-1.33 1.3-.23 1.64l5.22 1.63 12.16-7.67c.57-.37 1.09-.17.66.2L9.04 15.03z" fill="currentColor"/></svg>
+      <small>© <span id="year"></span> TonFi • Built on TON</small>
+      <div class="social" aria-label="Social links">
+        <a href="YOUR_TELEGRAM_URL" target="_blank" aria-label="Telegram" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.04 15.03l-.37 5.2c.53 0 .76-.23 1.03-.5l2.48-2.38 5.15 3.77c.94.52 1.61.25 1.87-.87l3.39-15.9c.3-1.38-.5-1.92-1.41-1.58L1.55 9.67c-1.35.53-1.33 1.3-.23 1.64l5.22 1.63 12.16-7.67c.57-.37 1.09-.17.66.2L9.04 15.03z" fill="currentColor"/></svg>
         </a>
-        <a href="https://x.com" target="_blank" aria-label="Twitter/X" rel="noopener">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18.244 2H21l-6.47 7.39L22.5 22h-6.9l-4.46-6.13L5.86 22H3.1l6.89-7.87L1.5 2h7.02l4.02 5.57L18.244 2Zm-1.207 18h1.951L7.05 4h-2L17.037 20Z" fill="currentColor"/></svg>
+        <a href="YOUR_X_URL" target="_blank" aria-label="X (Twitter)" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18.244 2H21l-6.47 7.39L22.5 22h-6.9l-4.46-6.13L5.86 22H3.1l6.89-7.87L1.5 2h7.02l4.02 5.57L18.244 2Zm-1.207 18h1.951L7.05 4h-2L17.037 20Z" fill="currentColor"/></svg>
         </a>
-        <a href="#" target="_blank" aria-label="Contract" rel="noopener" title="View Contract">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 2h9l3 3v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 2v16h10V6h-3V4H6Zm2 4h6v2H8V8Zm0 4h6v2H8v-2Zm0 4h4v2H8v-2Z" fill="currentColor"/></svg>
+        <a href="YOUR_CONTRACT_URL" target="_blank" aria-label="Contract" rel="noopener" title="View Contract">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 2h9l3 3v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 2v16h10V6h-3V4H6Zm2 4h6v2H8V8Zm0 4h6v2H8v-2Zm0 4h4v2H8v-2Z" fill="currentColor"/></svg>
         </a>
       </div>
     </div>
   </footer>
 
   <script>
-    // Year
+    // Copyright year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Subtle TON logos falling (pure SVG path; no external image)
+    // Subtle animated TON marks (SVG), no external files
     const fall = document.getElementById('fall');
-    const N = 22;
-    for(let i=0;i<N;i++){
+    const N = 26;
+    for (let i=0;i<N;i++){
       const el = document.createElement('div');
       el.className = 'ton';
-      const size = 14 + Math.random()*10;
+      const size = 14 + Math.random()*12;
       el.style.left = (Math.random()*100)+'vw';
-      el.style.animationDuration = (6 + Math.random()*8)+'s';
-      el.style.animationDelay = (Math.random()*-10)+'s';
-      el.style.opacity = (0.12 + Math.random()*0.12).toFixed(2);
+      el.style.animationDuration = (7 + Math.random()*10)+'s';
+      el.style.animationDelay = (Math.random()*-12)+'s';
+      el.style.top = (-10 - Math.random()*90) + 'vh';
       el.innerHTML = `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" style="display:block">
-        <path d="M12 2l8.66 5v10L12 22l-8.66-5V7L12 2z" fill="url(#g${i})" />
         <defs><linearGradient id="g${i}" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#14a8ff"/><stop offset="100%" stop-color="#23d2ff"/></linearGradient></defs>
+          <stop offset="0%" stop-color="#15A9FF"/><stop offset="100%" stop-color="#3FE7FF"/></linearGradient></defs>
+        <path d="M12 2l8.66 5v10L12 22l-8.66-5V7L12 2z" fill="url(#g${i})"/>
       </svg>`;
       fall.appendChild(el);
     }
