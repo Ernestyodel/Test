@@ -46,13 +46,14 @@
     .nav-cta{display:flex; gap:10px; align-items:center}
     .btn{padding:10px 14px; border-radius:12px; border:1px solid var(--border); color:var(--text); background:transparent; cursor:pointer}
     .btn.primary{background:linear-gradient(90deg,var(--tone),var(--tone2)); border:none; color:#002132; font-weight:700}
+    .btn[disabled]{opacity:.5; pointer-events:none}
 
     /* Hero */
     .hero{position:relative; padding:80px 0 44px; overflow:hidden}
     .badge{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; font-size:12px;
       border-radius:999px; border:1px solid var(--border); background:var(--glass); color:var(--muted); margin-bottom:14px}
     .hero h2{font-size:38px; line-height:1.1; margin:0 0 14px}
-    .hero p{color:var(--muted); font-size:16px; margin:0 0 22px}
+    .hero p{color:var(--muted); font-size:16px; margin:0 0 16px}
     .hero .cta{display:flex; gap:12px; flex-wrap:wrap}
 
     /* Sections */
@@ -90,11 +91,9 @@
       0%{margin-left: -6px} 50%{margin-left: 6px} 100%{margin-left: -6px}
     }
 
-    /* Section title */
+    /* Section title + address pill */
     .section-title{display:flex; align-items:center; gap:10px; margin-bottom:10px}
     .section-title .dot{width:8px;height:8px;border-radius:50%; background:var(--tone2); box-shadow:0 0 20px var(--tone2)}
-
-    /* Treasury pill */
     .addr-pill{display:inline-flex; gap:10px; align-items:center; padding:10px 12px; border:1px solid var(--border);
       border-radius:12px; background:var(--glass); overflow:auto; max-width:100%}
     .addr-pill code{white-space:nowrap}
@@ -114,7 +113,8 @@
         <h1>TonFi</h1>
       </div>
       <div class="nav-cta">
-        <a class="btn" href="https://t.me/tonfi" target="_blank" rel="noopener">Telegram</a>
+        <a class="btn" href="https://t.me/Tonfiportal" target="_blank" rel="noopener">Telegram</a>
+        <a class="btn" href="https://x.com/_TonFi" target="_blank" rel="noopener">Twitter</a>
         <a class="btn primary" href="#" target="_blank" rel="noopener">Buy on DEX</a>
       </div>
     </div>
@@ -125,11 +125,18 @@
     <div class="bg-fall" id="fall"></div>
     <div class="container">
       <span class="badge"><span style="width:8px;height:8px;background:var(--tone2);border-radius:50%"></span>Live on TON</span>
-      <h2>Passive Income on TON, <span style="color:var(--accent)">Meme Energy</span> with Real Utility</h2>
+      <h2>Passive Income on TON</h2>
       <p>TonFi grows a treasury, earns LP fees, buys back & burns, and shares a portion with holders. Simple flywheel, transparent on-chain.</p>
-      <div class="cta">
-        <a class="btn primary" href="#" target="_blank" rel="noopener">Launch App</a>
-        <a class="btn" href="#" target="_blank" rel="noopener">View Contract</a>
+
+      <!-- Contract placeholder (shows TBA until you paste address) -->
+      <div class="addr-pill" style="margin-top:10px">
+        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="opacity:.8"><path fill="currentColor" d="M6 2h9l3 3v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 2v16h10V6h-3V4H6Zm2 4h6v2H8V8Zm0 4h6v2H8v-2Zm0 4h4v2H8v-2Z"/></svg>
+        <strong>Contract (Jetton Root):</strong>
+        <code class="mono" id="contractAddr">TBA</code>
+      </div>
+      <div class="cta-row">
+        <a id="contractView" class="btn" href="#" target="_blank" rel="noopener" aria-disabled="true">Open in Tonviewer</a>
+        <button id="contractCopy" class="btn" type="button" disabled>Copy Address</button>
       </div>
     </div>
   </header>
@@ -236,14 +243,11 @@
     <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
       <div>© <span id="year"></span> TonFi • Built on TON</div>
       <div class="social">
-        <a href="https://t.me/tonfi" target="_blank" aria-label="Telegram" rel="noopener" title="Telegram">
+        <a href="https://t.me/Tonfiportal" target="_blank" aria-label="Telegram" rel="noopener" title="Telegram">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.92 3.2c.6-.25 1.22.3 1.05.93l-3.22 12.03c-.17.63-.87.96-1.45.66l-4.54-2.34-2.2 2.16c-.32.32-.86.17-.98-.27l-.99-3.66-4.1-1.2c-.68-.2-.7-1.13-.03-1.36L21.92 3.2Z"/></svg>
         </a>
-        <a href="https://x.com" target="_blank" aria-label="Twitter/X" rel="noopener" title="X">
+        <a href="https://x.com/_TonFi" target="_blank" aria-label="Twitter/X" rel="noopener" title="X (Twitter)">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2H21l-6.47 7.39L22.5 22h-6.9l-4.46-6.13L5.86 22H3.1l6.89-7.87L1.5 2h7.02l4.02 5.57L18.244 2Zm-1.207 18h1.951L7.05 4h-2L17.037 20Z"/></svg>
-        </a>
-        <a href="#" target="_blank" aria-label="Contract" rel="noopener" title="View Contract">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 2h9l3 3v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 2v16h10V6h-3V4H6Zm2 4h6v2H8V8Zm0 4h6v2H8v-2Zm0 4h4v2H8v-2Z"/></svg>
         </a>
       </div>
     </div>
@@ -253,7 +257,7 @@
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Copy address
+    // Copy treasury address
     const copyBtn = document.getElementById('copyBtn');
     copyBtn?.addEventListener('click', async () => {
       const addr = document.getElementById('treasuryAddr')?.textContent?.trim();
@@ -261,9 +265,32 @@
       catch { alert('Copy failed. Long-press the address to copy.'); }
     });
 
+    // Contract placeholder logic — auto-enable when you paste a real address
+    const contractAddrEl = document.getElementById('contractAddr');
+    const contractCopy = document.getElementById('contractCopy');
+    const contractView = document.getElementById('contractView');
+
+    function isTonAddr(s){ return typeof s === 'string' && s.length > 40 && (/^[UE]Q/.test(s)); }
+    function refreshContractUI(){
+      const v = (contractAddrEl?.textContent || '').trim();
+      const ok = isTonAddr(v);
+      contractCopy.disabled = !ok;
+      contractView.setAttribute('aria-disabled', ok ? 'false' : 'true');
+      contractView.classList.toggle('primary', ok);
+      if (ok) { contractView.href = 'https://tonviewer.com/' + v; } else { contractView.href = '#'; }
+    }
+    refreshContractUI();
+
+    contractCopy?.addEventListener('click', async () => {
+      const v = contractAddrEl?.textContent?.trim();
+      if(!isTonAddr(v)) return;
+      try { await navigator.clipboard.writeText(v); contractCopy.textContent = 'Copied!'; setTimeout(()=>contractCopy.textContent='Copy Address', 1500); }
+      catch { alert('Copy failed. Long-press the address to copy.'); }
+    });
+
     // Telegram logo rain
     const fall = document.getElementById('fall');
-    const COUNT = 28; // adjust density here
+    const COUNT = 28;
     const SVG = (id,size) => `
       <svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" style="display:block">
         <defs>
@@ -277,10 +304,10 @@
     for(let i=0;i<COUNT;i++){
       const el = document.createElement('div');
       el.className = 'flake';
-      const size = 14 + Math.random()*14; // 14–28px
-      const dur = 7 + Math.random()*9;    // 7–16s
-      const delay = Math.random()*-12;     // negative for already-in-motion
-      const left = Math.random()*100;      // vw
+      const size = 14 + Math.random()*14;
+      const dur = 7 + Math.random()*9;
+      const delay = Math.random()*-12;
+      const left = Math.random()*100;
       const rot = Math.floor(Math.random()*360)+'deg';
       el.style.left = left+'vw';
       el.style.top = (-10 + Math.random()*20)+'vh';
@@ -294,4 +321,4 @@
     }
   </script>
 </body>
-</html>
+</html>h2
