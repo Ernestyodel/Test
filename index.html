@@ -4,75 +4,212 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TonFi — Wealth on TON</title>
-  <meta name="description" content="TonFi is a simple and transparent fund on TON. Built to grow and reward holders in TON." />
+  <title>TonFi — Wealth & Passive Income on TON</title>
+  <meta name="description" content="TonFi is a simple, transparent wealth fund on TON. Treasury-backed. Passive income in TON." />
   <link rel="icon" href="tonfi-logo.png" />
   <style>
-    body{margin:0;font-family:sans-serif;background:#0b1220;color:#e2e8f0;line-height:1.55}
-    a{color:#22d3ee;text-decoration:none}
-    header{padding:12px 20px;background:#0f172a;position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center}
-    .brand{display:flex;align-items:center;gap:10px}
-    .brand img{width:32px;height:32px;border-radius:50%}
-    nav a{margin-left:14px;font-weight:600;color:#e2e8f0}
-    nav a.primary{padding:8px 14px;background:#3b82f6;border-radius:8px;color:white}
-    .container{max-width:960px;margin:0 auto;padding:20px}
-    .hero{padding:40px 0;text-align:center}
-    .hero h2{font-size:32px;margin:12px 0}
-    .hero p{color:#cbd5e1}
-    .btn{display:inline-block;margin:8px;padding:10px 16px;border-radius:8px;background:#3b82f6;color:white;font-weight:600}
-    section{margin:40px 0}
-    h3{margin-bottom:10px}
-    .card{background:#0f172a;padding:16px;border-radius:12px;margin-bottom:20px}
-    footer{padding:20px;text-align:center;color:#94a3b8;font-size:14px;border-top:1px solid rgba(148,163,184,.2)}
+    :root{
+      --bg:#0b0f1a; --panel:#0f172a; --text:#e5e7eb; --muted:#9aa4b2;
+      --brand:#57a7ff; --brand2:#22d3ee; --ring:rgba(34,211,238,.35);
+      --radius:18px; --shadow:0 10px 30px rgba(2,8,23,.55);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; color:var(--text);
+      background:radial-gradient(1200px 700px at 70% -10%, rgba(34,211,238,.12), transparent),
+                 radial-gradient(1000px 800px at -10% 30%, rgba(87,167,255,.12), transparent), var(--bg);
+    }
+    a{color:var(--brand2);text-decoration:none}
+    a:hover{text-decoration:underline}/* Header */
+header{position:sticky;top:0;backdrop-filter:saturate(160%) blur(8px);background:rgba(11,15,26,.65);border-bottom:1px solid rgba(148,163,184,.14);z-index:20}
+.nav{max-width:1000px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{width:36px;height:36px;border-radius:50%;box-shadow:0 0 0 2px rgba(87,167,255,.35)}
+.brand strong{letter-spacing:.3px}
+.links{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid rgba(148,163,184,.2);color:var(--text);font-weight:700}
+.btn.primary{background:linear-gradient(135deg, var(--brand), var(--brand2));border:none;color:white;box-shadow:var(--shadow)}
+
+/* Hero (TMD-style: loud headline, center) */
+.container{max-width:1000px;margin:0 auto;padding:22px}
+.hero{padding:48px 0;text-align:center}
+.kicker{display:inline-block;padding:6px 10px;border:1px solid rgba(148,163,184,.25);border-radius:999px;color:var(--muted);font-size:12px}
+.title{font-size:42px;line-height:1.05;margin:12px 0 8px}
+.subtitle{color:#cbd5e1;margin:0 auto 12px;max-width:720px}
+.cta{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:12px}
+
+/* Section blocks with big labels and % badges */
+section{padding:26px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,rgba(15,23,42,.85),rgba(15,23,42,.65));border:1px solid rgba(148,163,184,.16);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+h3{margin:0 0 8px}
+.muted{color:var(--muted)}
+.badge{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(148,163,184,.2);padding:6px 8px;border-radius:999px;color:#cbd5e1;font-size:12px}
+.percent{font-size:36px;font-weight:900;letter-spacing:.5px;text-shadow:0 0 12px rgba(34,211,238,.35)}
+
+/* Tokenomics rows */
+.rows{display:grid;gap:10px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:12px;border:1px dashed rgba(148,163,184,.18);border-radius:12px}
+
+/* Footer */
+footer{border-top:1px solid rgba(148,163,184,.14);color:var(--muted);font-size:14px;padding:18px 0;margin-top:36px}
+
   </style>
 </head>
 <body>
   <header>
-    <div class="brand">
-      <img src="tonfi-logo.png" alt="TonFi" onerror="this.style.display='none'" />
-      <strong>TonFi</strong>
+    <div class="nav">
+      <div class="brand">
+        <img src="tonfi-logo.png" alt="TonFi" onerror="this.style.display='none'">
+        <strong>TonFi</strong>
+      </div>
+      <div class="links">
+        <a class="btn" href="#tokenomics">Tokenomics</a>
+        <a class="btn" href="#treasury">Treasury</a>
+        <a class="btn" href="#governance">Governance</a>
+        <a class="btn primary" href="#buy">Buy $TONFI</a>
+      </div>
     </div>
-    <nav>
-      <a href="#tokenomics">Tokenomics</a>
-      <a href="#treasury">Treasury</a>
-      <a href="#roadmap">Roadmap</a>
-      <a class="primary" href="#buy">Buy $TONFI</a>
-    </nav>
   </header>  <main class="container">
+    <!-- HERO: simple, bold, centered like TMD -->
     <section class="hero">
-      <h2>Wealth & Rewards on TON</h2>
-      <p>TonFi grows a treasury from every trade. The treasury invests in good TON tokens and liquidity pools. Holders earn rewards in TON.</p>
-      <a class="btn" href="#treasury">View Treasury</a>
-    </section><section id="tokenomics">
-  <h3>Tokenomics</h3>
-  <div class="card">
-    <p><strong>Buy Tax 5%</strong> → 3% Treasury, 2% Holders (TON)</p>
-    <p><strong>Sell Tax 7%</strong> → 5% Treasury, 2% Holders (TON)</p>
-    <p>Treasury is used to buy tokens, add liquidity, and support TonFi.</p>
+      <span class="kicker">Built on TON</span>
+      <h1 class="title">TONFI IS LIVE. WE'RE HERE TO BUILD WEALTH.</h1>
+      <p class="subtitle">A simple, transparent fund on TON. Every trade grows the treasury. Holders earn rewards in <b>TON</b>.</p>
+      <div class="cta">
+        <a class="btn primary" href="#buy">Buy $TONFI</a>
+        <a class="btn" href="#treasury">View Treasury</a>
+      </div>
+      <div style="margin-top:10px;color:#94a3b8;font-size:14px">Contract Address (placeholder): <code id="contract">EQXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</code></div>
+    </section><!-- TOKENOMICS: clear rows + big percentages (styled echo of TMD) -->
+<section id="tokenomics">
+  <div class="grid">
+    <div class="card">
+      <h3>Buy Tax</h3>
+      <div class="percent">5%</div>
+      <p class="muted">Simple and fair for new entries.</p>
+      <div class="rows">
+        <div class="row"><span>To Treasury</span><strong>3%</strong></div>
+        <div class="row"><span>To Holders (TON)</span><strong>2%</strong></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Sell Tax</h3>
+      <div class="percent">7%</div>
+      <p class="muted">Supports the fund long-term.</p>
+      <div class="rows">
+        <div class="row"><span>To Treasury</span><strong>5%</strong></div>
+        <div class="row"><span>To Holders (TON)</span><strong>2%</strong></div>
+      </div>
+    </div>
   </div>
 </section>
 
+<!-- TREASURY: concise copy, public address, quick actions -->
 <section id="treasury">
-  <h3>Treasury</h3>
   <div class="card">
-    <p>Every trade adds to the treasury. It buys and holds TON tokens and provides liquidity. The wallet is public and updated live.</p>
-    <p><code>UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh</code></p>
-    <p id="treasuryValue">Treasury Value: $0.00</p>
+    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+      <h3 style="margin:0">Treasury</h3>
+      <span class="badge" id="last">Updated —</span>
+    </div>
+    <p class="muted" style="margin-top:8px">Public, transparent, and growing. Used to buy potential TON tokens and provide liquidity in strong pools.</p>
+    <div class="rows" style="margin-top:8px">
+      <div class="row"><span>Treasury Address</span><code id="addr">UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh</code></div>
+      <div class="row"><span>Total Value (USD)</span><strong id="total">Loading…</strong></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+      <button class="btn" id="copy">Copy Address</button>
+      <a class="btn" id="tonviewer" target="_blank" rel="noopener">Open Tonviewer</a>
+      <a class="btn" id="dedust" target="_blank" rel="noopener">Open DeDust</a>
+    </div>
+    <small class="muted">Pricing via TonAPI + CoinGecko (fallback: DexScreener for jettons). Some assets may be unpriced.</small>
   </div>
 </section>
 
-<section id="roadmap">
-  <h3>Roadmap</h3>
-  <div class="card"><strong>Phase 1</strong>: Launch token, treasury, website.</div>
-  <div class="card"><strong>Phase 2</strong>: Grow treasury, add liquidity, build partnerships.</div>
-  <div class="card"><strong>Phase 3</strong>: DAO for treasury decisions and staking options.</div>
+<!-- GOVERNANCE: short, direct, TMD-esque "coming soon" block -->
+<section id="governance">
+  <div class="card">
+    <h3>Governance (Coming Soon)</h3>
+    <p class="muted">Holders will vote on treasury allocations, supported tokens, and long‑term strategy. Your voice shapes TonFi.</p>
+  </div>
 </section>
 
 <footer>
-  © <span id="year"></span> TonFi. Built on TON.
+  <div class="container" style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+    <span>© <span id="year"></span> TonFi</span>
+    <span class="muted">Built on TON • Simple & Transparent</span>
+  </div>
 </footer>
 
   </main>  <script>
+    // Config
+    const TREASURY_ADDRESS = 'UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh';
+
+    // Links
+    const t = {
+      copy: document.getElementById('copy'),
+      addr: document.getElementById('addr'),
+      tonviewer: document.getElementById('tonviewer'),
+      dedust: document.getElementById('dedust'),
+      total: document.getElementById('total'),
+      last: document.getElementById('last')
+    };
+    t.tonviewer.href = `https://tonviewer.com/${TREASURY_ADDRESS}`;
+    t.dedust.href = `https://dedust.io/search/${TREASURY_ADDRESS}`;
+
+    t.copy.addEventListener('click', async () => {
+      try{ await navigator.clipboard.writeText(TREASURY_ADDRESS); t.copy.textContent='Copied!'; setTimeout(()=>t.copy.textContent='Copy Address',1500);}catch(e){ alert(TREASURY_ADDRESS); }
+    });
+
+    // Helpers
+    function fmtUSD(x){ return Number(x||0).toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:2}); }
+    const nanoToTON = n => Number(n)/1e9;
+
+    async function fetchJSON(u){ const r = await fetch(u,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }
+    async function getTONUSD(){
+      try{ const j = await fetchJSON('https://api.coingecko.com/api/v3/simple/price?ids=the-open-network&vs_currencies=usd');
+        return j?.['the-open-network']?.usd ?? 0; }catch(e){ return 6.0; }
+    }
+
+    async function getViaTonAPI(addr){
+      const base = 'https://tonapi.io/v2';
+      const acc = await fetchJSON(`${base}/accounts/${addr}`);
+      const ton = nanoToTON(acc?.balance||0);
+      let jettonsUSD = 0, priced = 0, count = 0;
+      try{
+        const js = await fetchJSON(`${base}/accounts/${addr}/jettons?currencies=usd`);
+        const items = Array.isArray(js?.jettons) ? js.jettons : [];
+        count = items.length;
+        for(const it of items){
+          const raw = Number(it?.balance||0);
+          const decimals = Number(it?.jetton?.decimals ?? 9);
+          const amount = raw / Math.pow(10,decimals);
+          const p = it?.price?.prices?.find?.(x=>x.currency==='usd');
+          if(p?.price){ jettonsUSD += amount * Number(p.price); priced++; }
+        }
+      }catch(e){ /* ignore */ }
+      return { source:'TonAPI', ton, jettonsUSD, count, priced };
+    }
+
+    async function getViaToncenter(addr){
+      const j = await fetchJSON(`https://toncenter.com/api/v2/getAddressBalance?address=${addr}`);
+      return { source:'Toncenter', ton: nanoToTON(j?.result||0), jettonsUSD:0, count:0, priced:0 };
+    }
+
+    async function update(){
+      t.total.textContent = 'Loading…';
+      let data;
+      try{ data = await getViaTonAPI(TREASURY_ADDRESS); }
+      catch(e){ data = await getViaToncenter(TREASURY_ADDRESS); }
+      const tonPrice = await getTONUSD();
+      const tonUSD = data.ton * tonPrice;
+      const total = tonUSD + (data.jettonsUSD||0);
+      t.total.textContent = fmtUSD(total);
+      t.last.textContent = 'Updated ' + new Date().toLocaleString();
+    }
+
+    update();
+    setInterval(update, 120000);
     document.getElementById('year').textContent = new Date().getFullYear();
   </script></body>
 </html>
