@@ -24,7 +24,6 @@
         linear-gradient(180deg,var(--bg1),var(--bg2));
       overflow-x:hidden;
       letter-spacing:.2px;
-      scroll-behavior:smooth;
     }
     a{color:var(--accent); text-decoration:none}
     a:hover{opacity:.92}
@@ -44,10 +43,9 @@
     .logo img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block}
     .logo svg{width:20px;height:20px; fill:white; position:relative}
     .brand h1{font-size:18px; margin:0; letter-spacing:.5px}
-    .nav-cta{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
-    .btn{padding:10px 14px; border-radius:12px; border:1px solid var(--border); color:var(--text); background:transparent}
+    .nav-cta{display:flex; gap:10px; align-items:center}
+    .btn{padding:10px 14px; border-radius:12px; border:1px solid var(--border); color:var(--text); background:transparent; cursor:pointer}
     .btn.primary{background:linear-gradient(90deg,var(--tone),var(--tone2)); border:none; color:#002132; font-weight:700}
-    .btn.ghost{background:var(--glass)}
 
     /* Hero */
     .hero{position:relative; padding:80px 0 44px; overflow:hidden}
@@ -92,26 +90,15 @@
       0%{margin-left: -6px} 50%{margin-left: 6px} 100%{margin-left: -6px}
     }
 
-    /* Section titles */
+    /* Section title */
     .section-title{display:flex; align-items:center; gap:10px; margin-bottom:10px}
     .section-title .dot{width:8px;height:8px;border-radius:50%; background:var(--tone2); box-shadow:0 0 20px var(--tone2)}
 
-    /* Whitepaper styles */
-    #whitepaper .wp-card{background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:16px; padding:16px}
-    #whitepaper h2{margin:4px 0 14px; font-size:26px}
-    #whitepaper h3{margin:18px 0 8px; font-size:18px}
-    #whitepaper p,#whitepaper li{color:var(--muted)}
-    #whitepaper .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
-
-    /* Print: only print the whitepaper cleanly */
-    @media print{
-      body{background:#fff; color:#000}
-      .nav, .hero, footer, .non-print{display:none !important}
-      #whitepaper{display:block !important}
-      #whitepaper *{color:#000 !important; background:none !important; box-shadow:none !important}
-      #whitepaper .wp-card{border:1px solid #999}
-      a:link::after{content:" (" attr(href) ")"; font-size:10px}
-    }
+    /* Treasury pill */
+    .addr-pill{display:inline-flex; gap:10px; align-items:center; padding:10px 12px; border:1px solid var(--border);
+      border-radius:12px; background:var(--glass); overflow:auto; max-width:100%}
+    .addr-pill code{white-space:nowrap}
+    .cta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
   </style>
 </head>
 <body>
@@ -121,14 +108,12 @@
     <div class="container nav-inner">
       <div class="brand">
         <div class="logo" aria-hidden="true">
-          <!-- If tonfi-logo.png exists, it will show. Otherwise fallback glyph below -->
           <img src="tonfi-logo.png" alt="TonFi logo" onerror="this.style.display='none'">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8.66 5v10L12 22l-8.66-5V7L12 2zm0 2.3L5.34 7.5v8.99L12 19.7l6.66-3.21V7.5L12 4.3z"/></svg>
         </div>
         <h1>TonFi</h1>
       </div>
       <div class="nav-cta">
-        <a class="btn ghost" href="#whitepaper">Whitepaper</a>
         <a class="btn" href="https://t.me/tonfi" target="_blank" rel="noopener">Telegram</a>
         <a class="btn primary" href="#" target="_blank" rel="noopener">Buy on DEX</a>
       </div>
@@ -136,7 +121,7 @@
   </div>
 
   <!-- Hero -->
-  <header class="hero non-print">
+  <header class="hero">
     <div class="bg-fall" id="fall"></div>
     <div class="container">
       <span class="badge"><span style="width:8px;height:8px;background:var(--tone2);border-radius:50%"></span>Live on TON</span>
@@ -145,12 +130,11 @@
       <div class="cta">
         <a class="btn primary" href="#" target="_blank" rel="noopener">Launch App</a>
         <a class="btn" href="#" target="_blank" rel="noopener">View Contract</a>
-        <a class="btn ghost" href="#whitepaper">Whitepaper</a>
       </div>
     </div>
   </header>
 
-  <main class="container non-print">
+  <main class="container">
     <!-- Value props -->
     <section>
       <div class="grid cols-3">
@@ -191,6 +175,22 @@
       </div>
     </section>
 
+    <!-- Treasury Address (static, with Tonviewer button) -->
+    <section aria-labelledby="treasury">
+      <div class="section-title"><span class="dot"></span><h3 id="treasury" style="margin:0">Treasury</h3></div>
+      <div class="card">
+        <p class="muted" style="margin-top:0">Primary treasury address (transparent & on-chain):</p>
+        <div class="addr-pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="opacity:.8"><path fill="currentColor" d="M12 2l8.66 5v10L12 22l-8.66-5V7L12 2z"/></svg>
+          <code class="mono" id="treasuryAddr">UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh</code>
+        </div>
+        <div class="cta-row">
+          <a class="btn primary" href="https://tonviewer.com/UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh" target="_blank" rel="noopener">Open in Tonviewer</a>
+          <button class="btn" id="copyBtn" type="button">Copy Address</button>
+        </div>
+      </div>
+    </section>
+
     <!-- Roadmap -->
     <section>
       <div class="section-title"><span class="dot"></span><h3 style="margin:0">Roadmap</h3></div>
@@ -213,61 +213,26 @@
         </div>
       </div>
     </section>
+
+    <!-- FAQ -->
+    <section>
+      <div class="section-title"><span class="dot"></span><h3 style="margin:0">FAQ</h3></div>
+      <details>
+        <summary>How do the taxes create value?</summary>
+        <p class="muted">Trade taxes route to the treasury and holder rewards. The treasury targets LP fees; those fees help fund buybacks and burns.</p>
+      </details>
+      <details>
+        <summary>Where can I see the treasury?</summary>
+        <p class="muted">Check the address above on Tonviewer anytime.</p>
+      </details>
+      <details>
+        <summary>Meme or utility?</summary>
+        <p class="muted">Both. Culture drives attention; cashflows drive durability.</p>
+      </details>
+    </section>
   </main>
 
-  <!-- WHITEPAPER -->
-  <section id="whitepaper" class="container" style="scroll-margin-top:80px">
-    <div class="section-title"><span class="dot"></span><h2 style="margin:0">TonFi Whitepaper (v1.0)</h2></div>
-    <div class="wp-card">
-      <h3>Overview</h3>
-      <p>TonFi is a community token on the TON blockchain focused on sustainable on-chain cashflows. A portion of trade taxes funds a treasury that deploys liquidity across TON markets to earn LP fees. Those fees help power buybacks & burns and reward long-term holders.</p>
-
-      <h3>Mechanics</h3>
-      <ul>
-        <li><strong>Buy Tax:</strong> 5% → <em>3% Liquidity &amp; Buyback</em>, <em>2% Holders</em>.</li>
-        <li><strong>Sell Tax:</strong> 7% → <em>5% Liquidity &amp; Buyback</em>, <em>2% Holders</em>.</li>
-        <li><strong>Treasury Deployments:</strong> Curated LP positions on reputable TON DEX pools; target real yield from trading fees.</li>
-        <li><strong>Buyback &amp; Burn:</strong> Periodic buybacks using accrued fees; purchased tokens are sent to burn address.</li>
-        <li><strong>Holder Rewards:</strong> Automated distribution of the holder share to staking/holding participants (params disclosed at launch).</li>
-      </ul>
-
-      <h3>Treasury & Transparency</h3>
-      <ul>
-        <li><strong>Primary treasury address:</strong> <span class="mono">UQCa8VoKt4HcjEyhmCjY9STErQmRCqPm3n0bJYzG4dQDGLhh</span></li>
-        <li>Real-time dashboards will show the <em>total USD value</em> of holdings on-site, with on-chain proofs.</li>
-        <li>Monthly transparency notes summarizing positions, fees earned, and burns executed.</li>
-      </ul>
-
-      <h3>Governance</h3>
-      <ul>
-        <li>DAO-style proposals to suggest new tokens/pools for treasury deployments.</li>
-        <li>Snapshot-like off-chain signaling + on-chain execution where applicable.</li>
-      </ul>
-
-      <h3>Token & Launch</h3>
-      <ul>
-        <li><strong>Ticker/Supply:</strong> TBA (fair, transparent, auditable).</li>
-        <li><strong>Listings:</strong> Initial TON DEX pair; CEX/aggregator listings as milestones are met.</li>
-      </ul>
-
-      <h3>Risks</h3>
-      <ul>
-        <li>Market volatility can reduce LP fee yields and impact buybacks.</li>
-        <li>Smart-contract and integration risks mitigated by audits and conservative deployments.</li>
-        <li>Policy, listing, or platform changes can affect execution timelines.</li>
-      </ul>
-
-      <h3>Disclaimer</h3>
-      <p>This document is for informational purposes only and does not constitute financial advice or an offer to sell securities. Participation involves risk. Do your own research.</p>
-
-      <div class="actions">
-        <a class="btn primary" href="#top" onclick="window.print();return false;">Download / Print PDF</a>
-        <a class="btn" href="#top">Back to Top</a>
-      </div>
-    </div>
-  </section>
-
-  <footer class="non-print">
+  <footer>
     <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
       <div>© <span id="year"></span> TonFi • Built on TON</div>
       <div class="social">
@@ -288,38 +253,44 @@
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // Copy address
+    const copyBtn = document.getElementById('copyBtn');
+    copyBtn?.addEventListener('click', async () => {
+      const addr = document.getElementById('treasuryAddr')?.textContent?.trim();
+      try { await navigator.clipboard.writeText(addr); copyBtn.textContent = 'Copied!'; setTimeout(()=>copyBtn.textContent='Copy Address', 1500); }
+      catch { alert('Copy failed. Long-press the address to copy.'); }
+    });
+
     // Telegram logo rain
     const fall = document.getElementById('fall');
-    if(fall){
-      const COUNT = 28; // adjust density here
-      const SVG = (id,size) => `
-        <svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" style="display:block">
-          <defs>
-            <linearGradient id="tg${id}" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#14a8ff"/><stop offset="100%" stop-color="#23d2ff"/>
-            </linearGradient>
-          </defs>
-          <path d="M21.92 3.2c.6-.25 1.22.3 1.05.93l-3.22 12.03c-.17.63-.87.96-1.45.66l-4.54-2.34-2.2 2.16c-.32.32-.86.17-.98-.27l-.99-3.66-4.1-1.2c-.68-.2-.7-1.13-.03-1.36L21.92 3.2Z"
-                fill="url(#tg${id})"/>
-        </svg>`;
-      for(let i=0;i<COUNT;i++){
-        const el = document.createElement('div');
-        el.className = 'flake';
-        const size = 14 + Math.random()*14; // 14–28px
-        const dur = 7 + Math.random()*9;    // 7–16s
-        const delay = Math.random()*-12;     // negative for already-in-motion
-        const left = Math.random()*100;      // vw
-        const rot = Math.floor(Math.random()*360)+'deg';
-        el.style.left = left+'vw';
-        el.style.top = (-10 + Math.random()*20)+'vh';
-        el.style.setProperty('--x', (Math.random()*10 - 5) + 'vw');
-        el.style.setProperty('--r', rot);
-        el.style.animationDuration = dur+'s, '+(3+Math.random()*4)+'s';
-        el.style.animationDelay = delay+'s, '+(Math.random()*-4)+'s';
-        el.style.opacity = (0.12 + Math.random()*0.18).toFixed(2);
-        el.innerHTML = SVG(i,size);
-        fall.appendChild(el);
-      }
+    const COUNT = 28; // adjust density here
+    const SVG = (id,size) => `
+      <svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" style="display:block">
+        <defs>
+          <linearGradient id="tg${id}" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#14a8ff"/><stop offset="100%" stop-color="#23d2ff"/>
+          </linearGradient>
+        </defs>
+        <path d="M21.92 3.2c.6-.25 1.22.3 1.05.93l-3.22 12.03c-.17.63-.87.96-1.45.66l-4.54-2.34-2.2 2.16c-.32.32-.86.17-.98-.27l-.99-3.66-4.1-1.2c-.68-.2-.7-1.13-.03-1.36L21.92 3.2Z"
+              fill="url(#tg${id})"/>
+      </svg>`;
+    for(let i=0;i<COUNT;i++){
+      const el = document.createElement('div');
+      el.className = 'flake';
+      const size = 14 + Math.random()*14; // 14–28px
+      const dur = 7 + Math.random()*9;    // 7–16s
+      const delay = Math.random()*-12;     // negative for already-in-motion
+      const left = Math.random()*100;      // vw
+      const rot = Math.floor(Math.random()*360)+'deg';
+      el.style.left = left+'vw';
+      el.style.top = (-10 + Math.random()*20)+'vh';
+      el.style.setProperty('--x', (Math.random()*10 - 5) + 'vw');
+      el.style.setProperty('--r', rot);
+      el.style.animationDuration = dur+'s, '+(3+Math.random()*4)+'s';
+      el.style.animationDelay = delay+'s, '+(Math.random()*-4)+'s';
+      el.style.opacity = (0.12 + Math.random()*0.18).toFixed(2);
+      el.innerHTML = SVG(i,size);
+      fall.appendChild(el);
     }
   </script>
 </body>
